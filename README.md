@@ -4,9 +4,8 @@ AWS CI/CD Automation using tools:
 2. Vagrant
 3. AWS CLI
 4. Azure DevOps
-5. Packer
-6. Terraform
-7. Ansible
+5. Terraform
+6. Ansible
 
 ## INITIAL SETUP
 Description on the installation process for each tools.  
@@ -83,17 +82,6 @@ Extensions:
 - [Terraform](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.custom-terraform-tasks) by Microsoft DevLabs.  
 - [Ansible](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.vss-services-ansible&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Microsoft.  
 - [Replace Tokens](https://marketplace.visualstudio.com/items?itemName=qetza.replacetokens&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Guillaume Rouchon.  
-    
-### PACKER  
-Download the installer here:  
-- Packer: [Packer Installer](https://www.packer.io/).  
-  
-Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).  
-  
-To create AMI:  
-1. Go to Packer directory.  
-2. Run command > *packer build CIS_Windows_AMI.json* (Windows) or
-3. Run command > *packer build Ubuntu_AMI.json* (Ubuntu for Nginx)  
   
 ### TERRAFORM  
 Download the installer here:  
