@@ -83,6 +83,20 @@ Extensions:
 - [Replace Tokens](https://marketplace.visualstudio.com/items?itemName=qetza.replacetokens&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Guillaume Rouchon.  
 Service Connection: **AWS for Terraform**  
 Pipeline Script: **azure-pipelines-tf.yml**  
+    
+#### REPOSITORY  
+  
+#### PIPELINES  
+Method: YAML editor.  
+Deployment Groups: SIT/UAT/PROD/PROD-SYDNEY.  
+Build Definition:  
+1. Checkout files from code repository.  
+2. Terraform init.  
+3. Terraform validate.  
+4. Create package with .terraform folder and all the .tf files.  
+5. Download package for build definition (artifact).  
+6. Terraform plan.  
+7. Terraform apply.    
   
 ### TERRAFORM  
 Download the installer here:  
@@ -90,7 +104,9 @@ Download the installer here:
   
 Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).   
   
-Remote Backend State = S3 bucket: *edfazli92-terraform-statefile*.  
+Prerequisites:
+- Remote Backend State = S3 bucket: *edfazli92-terraform-statefile*.  
+- DynamoDB Table: *tfstatelocking*.  
   
   
 ## SOFTWARE DEPENDENCIES  
