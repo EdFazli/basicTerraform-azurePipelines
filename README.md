@@ -88,7 +88,7 @@ Pipeline Script: **azure-pipelines-tf.yml**
   
 #### PIPELINES  
 Method: YAML editor.  
-Deployment Groups: SIT/UAT/PROD/PROD-SYDNEY.  
+  
 Build Definition:  
 1. Checkout files from code repository.  
 2. Terraform init.  
@@ -107,6 +107,8 @@ Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).
 Prerequisites:
 - Remote Backend State = S3 bucket: *edfazli92-terraform-statefile*.  
 - DynamoDB Table: *tfstatelocking*.  
+  
+Workspaces: SIT/UAT/PROD/PROD-SYDNEY.  
   
   
 ## SOFTWARE DEPENDENCIES  
