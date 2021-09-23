@@ -5,7 +5,7 @@ terraform {
     required_version = ">=1.0"
     backend "s3" {
         bucket = "edfazli92-terraform-statefile"
-        key    = "path/to/my/key"
+        key    = "edfazli92-terraform-statefile/"
         region = "ap-southeast-1"
   }
 }

@@ -75,19 +75,23 @@ CLI Credentials and Config File Location:
   
 ### AZURE DEVOPS
 URL Reference: https://dev.azure.com/edfazli92/_git/TerraformAnsible_CICD.  
-Project Name: **TerraformAnsible_CI/CD**.  
-Repository Name: **ModularTerraform**.  
+Project Name: *TerraformAnsible_CI/CD*.  
+Repository Name: *ModularTerraform*.  
 Extensions:  
 - [Terraform](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.custom-terraform-tasks) by Microsoft DevLabs.  
 - [Ansible](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.vss-services-ansible&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Microsoft.  
 - [Replace Tokens](https://marketplace.visualstudio.com/items?itemName=qetza.replacetokens&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Guillaume Rouchon.  
 Service Connection: **AWS for Terraform**  
+Pipeline Script: **azure-pipelines-tf.yml**  
   
 ### TERRAFORM  
 Download the installer here:  
 - Terraform: [Terraform Installer](https://www.terraform.io/downloads.html).  
   
 Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).   
+  
+Remote Backend State = S3 bucket: *edfazli92-terraform-statefile*.  
+  
   
 ## SOFTWARE DEPENDENCIES  
 Please take note on the dependencies as below.  
