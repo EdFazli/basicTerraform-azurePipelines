@@ -9,6 +9,15 @@ variable "region" {
     description = "Which region you want to provision your resources?"
 }
 
+variable "provider_env_roles" {
+  type = map(any)
+  default = {
+    "SIT"  = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+    "UAT" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+    "PROD" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+  }
+}
+
 #Define IAM User Access Key
 variable "access_key" {
   description = "The access_key that belongs to the IAM user"
