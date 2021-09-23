@@ -1,7 +1,7 @@
 # AWS CI/CD AUTOMATION 
 AWS CI/CD Automation using tools:
 1. Visual Studio Code + Git
-2. Vagrant
+2. Vagrant (optional)
 3. AWS CLI
 4. Azure DevOps
 5. Terraform
@@ -76,7 +76,7 @@ CLI Credentials and Config File Location:
 ### AZURE DEVOPS
 URL Reference: https://dev.azure.com/edfazli92/_git/TerraformAnsible_CICD.  
 Project Name: **TerraformAnsible_CI/CD**.  
-Repository Name: **TerraformAnsible_CI/CD**.  
+Repository Name: **ModularTerraform**.  
 Extensions:  
 - [Terraform](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.custom-terraform-tasks) by Microsoft DevLabs.  
 - [Ansible](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.vss-services-ansible&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Microsoft.  
