@@ -5,7 +5,6 @@ AWS CI/CD Automation using tools:
 3. AWS CLI
 4. Azure DevOps
 5. Terraform
-6. Ansible
 
 ## INITIAL SETUP
 Description on the installation process for each tools.  
@@ -87,13 +86,7 @@ Extensions:
 Download the installer here:  
 - Terraform: [Terraform Installer](https://www.terraform.io/downloads.html).  
   
-Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).  
-  
-### ANSIBLE  
-Ansible installation guide:  
-- Ansible: [Ansible Installation Guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html?extIdCarryOver=true&sc_cid=701f2000001OH7YAAW).  
-  
-Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).  
+Installation has been done in Vagrant environment (refer ./Vagrant/vagrantfile).   
   
 ## SOFTWARE DEPENDENCIES  
 Please take note on the dependencies as below.  
