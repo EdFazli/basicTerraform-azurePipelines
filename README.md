@@ -81,6 +81,7 @@ Extensions:
 - [Terraform](https://marketplace.visualstudio.com/items?itemName=ms-devlabs.custom-terraform-tasks) by Microsoft DevLabs.  
 - [Ansible](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.vss-services-ansible&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Microsoft.  
 - [Replace Tokens](https://marketplace.visualstudio.com/items?itemName=qetza.replacetokens&targetId=f50bb806-12a5-4271-93c0-94a1fad3241a&utm_source=vstsproduct&utm_medium=ExtHubManageList) by Guillaume Rouchon.  
+Service Connection: **AWS for Terraform**  
   
 ### TERRAFORM  
 Download the installer here:  
@@ -94,13 +95,10 @@ Please take note on the dependencies as below.
 Terraform:  
 -  
   
-Ansible:  
--  
-  
 ## VARIABLES REFERENCES  
   
 ## CI/CD PIPELINES  
-Description on how to build terraform/ansible code and run the scripts.  
+Description on how to build terraform code and run the scripts.  
   
 ## REVIEWER  
 ITOPS person in charge to review and merge scripts to main repository and deploy the changes.  
