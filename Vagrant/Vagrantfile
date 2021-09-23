@@ -1,0 +1,31 @@
+#---Vagrant COnfiguration---#
+
+$software_install = <<SCRIPT
+sudo su
+yum update -y
+yum install -y yum-utils
+yum install -y unzip vim
+yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+yum -y install packer
+yum -y install terraform
+yum -y install epel-release
+yum update -y
+yum -y install ansible
+ansible-galaxy collection install community.windows
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/8" # vagrant image
+  config.vm.hostname = "dev-infra-vm" # vm's name
+  config.vm.network "private_network", ip: "192.168.56.9" # static LAN IP within same subnet
+  config.vm.synced_folder "../", "/home/vagrant/data" # to sync folder between host and guest
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "6144"
+    vb.cpus = "2"
+    vb.name = "ModularTerraform"
+  end
+
+  config.vm.provision "shell", inline: $software_install
+
+end
