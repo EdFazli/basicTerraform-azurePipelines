@@ -15,6 +15,7 @@ variable "provider_env_roles" {
     "SIT"  = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
     "UAT" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
     "PROD" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+    "PROD-SYDNEY" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
   }
 }
 
