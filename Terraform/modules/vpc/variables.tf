@@ -1,8 +1,8 @@
 #########################
 # variables declaration #
 #########################
-#Define VPC Address Space
-variable "vpc_address_space" {
+#Define vpc
+variable "vpc" {
   type = map(any)
   default = {
     SIT  = "10.210.0.0/16"
@@ -12,8 +12,8 @@ variable "vpc_address_space" {
   }
 }
 
-#Define Subnet Address Space
-variable "subnet_address_space" {
+#Define private_subnets
+variable "private_subnets" {
   type = map(any)
   default = {
     SIT  = ["10.8.0.0/24"]

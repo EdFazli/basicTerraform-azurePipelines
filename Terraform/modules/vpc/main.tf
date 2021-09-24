@@ -6,46 +6,46 @@ terraform {
 }
 
 #Create VPC 
-resource "aws_vpc" "myvpc" {
-  cidr_block = lookup(var.vpc_address_space, local.env)
+resource "aws_vpc" "this" {
+  cidr_block = lookup(var.vpc, local.env)
   tags = {
-    Name = local.env
+    Name = "VPC-${local.env}"
   }
 }
 data "aws_availability_zones" "available" {
   state = "available"
 }
-resource "aws_subnet" "mysubnet" {
-  count                   = length(lookup(var.subnet_address_space, local.env))
-  cidr_block              = lookup(var.subnet_address_space, local.env)[count.index]
-  vpc_id                  = aws_vpc.myvpc.id
+resource "aws_subnet" "this" {
+  count                   = length(lookup(var.private_subnets, local.env))
+  cidr_block              = lookup(var.private_subnets, local.env)[count.index]
+  vpc_id                  = aws_vpc.this.id
   map_public_ip_on_launch = "true"
   availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "${local.env}-subnet-${count.index + 1}"
   }
 }
-resource "aws_internet_gateway" "this_gateway" {
-  vpc_id = aws_vpc.myvpc.id
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
   tags = {
     "Name" = "${local.env}-main-igw"
   }
 }
 
-resource "aws_route_table" "this_route_table" {
-  vpc_id = aws_vpc.myvpc.id
+resource "aws_route_table" "this" {
+  vpc_id = aws_vpc.this.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.this_gateway.id
+    gateway_id = aws_internet_gateway.this.id
   }
   tags = {
     "Name" = "${local.env}-main-rt"
   }
 }
 
-resource "aws_route_table_association" "public-rta" {
-  count          = length(aws_subnet.mysubnet)
-  subnet_id      = aws_subnet.mysubnet[count.index].id
-  route_table_id = aws_route_table.this_route_table.id
+resource "aws_route_table_association" "public_rta" {
+  count          = length(aws_subnet.this)
+  subnet_id      = aws_subnet.this[count.index].id
+  route_table_id = aws_route_table.this.id
 
 }
