@@ -33,6 +33,7 @@ Ensure the extensions below are installed in your VS Code:
 3. [YAML](redhat.vscode-yaml).
 4. [JSON](zainchen.json).
 5. [Ansible](tomaciazek.ansible).
+6. [Azure pipelines](ms-azure-devops.azure-pipelines).
   
 ### VAGRANT
 Download the installer here:  
