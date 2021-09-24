@@ -5,6 +5,7 @@ AWS CI/CD Automation using tools:
 3. AWS CLI
 4. Azure DevOps
 5. Terraform
+6. Checkov
 
 ## INITIAL SETUP
 Description on the installation process for each tools.  
@@ -90,13 +91,20 @@ Pipeline Script: **azure-pipelines-tf.yml**
 Method: YAML editor.  
   
 Build Definition:  
-1. Checkout files from code repository.  
-2. Terraform init.  
-3. Terraform validate.  
-4. Create package with .terraform folder and all the .tf files.  
-5. Download package for build definition (artifact).  
-6. Terraform plan.  
-7. Terraform apply.    
+  
+1. Provide the build agent with terraform configuration files and a “list of workspaces” to validate the configuration against.  
+2. Run *terraform init* on default workspace.  
+3. For each workspace provided in the list of workspaces (in step 1), check if the workspace exists and if it does not, create the workspace.  
+4. Validate the selected workspace with *terraform validate*.  
+5. Repeat steps 3 and 4 until all workspaces specified in the “list of workspaces” are validated.  
+6. Create a build artifact.  
+  
+Then for each Stage (Dev, Test, and Prod), run the following:  
+1. Download the build artifact.  
+2. Select a particular workspace.  
+3. Run *terraform plan* against that workspace.  
+4. Wait for manual validation (reject or resume) of the plan file created in Step 3.  
+5. If step 4 was a resume, run *terraform apply*.  
   
 ### TERRAFORM  
 Download the installer here:  
@@ -110,6 +118,8 @@ Prerequisites:
   
 Workspaces: SIT/UAT/PROD/PROD-SYDNEY.  
   
+### CHECKOV  
+    
   
 ## SOFTWARE DEPENDENCIES  
 Please take note on the dependencies as below.  
