@@ -35,7 +35,7 @@ Ensure the extensions below are installed in your VS Code:
 5. [Ansible](tomaciazek.ansible).
 6. [Azure pipelines](ms-azure-devops.azure-pipelines).
   
-### VAGRANT
+### VAGRANT (OPTIONAL)
 Download the installer here:  
 - Vagrant: [Vagrant Installer](https://www.vagrantup.com/downloads).
   
@@ -87,6 +87,7 @@ Service Connection: **AWS for Terraform**
 Pipeline Script: **azure-pipelines-tf.yml**  
     
 #### REPOSITORY  
+Repository URL: https://edfazli92@dev.azure.com/edfazli92/TerraformAnsible_CICD/_git/ModularTerraform.  
   
 #### PIPELINES  
 Method: YAML editor.  
