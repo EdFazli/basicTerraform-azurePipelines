@@ -103,8 +103,13 @@ variable "public_subnet_suffix" {
 
 variable "public_subnets_name" {
   description = "List of name for the public subnets"
-  type = list(string)
-  default = [ "IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY" ]
+  type = map(any)
+  default = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "private_subnet_suffix" {
@@ -115,27 +120,35 @@ variable "private_subnet_suffix" {
 
 variable "private_subnets_name" {
   description = "List of name for the private subnets"
-  type = list(string)
-  default = [ 
-              "MMS-ALB", "MMS-ALB", "MMS-WEB", "MMS-WEB", "MMS-LAMBDA", "MMS-LAMBDA", "MMS-STORAGE", "MMS-STORAGE", "MMS-REDIS", "MMS-REDIS", "MMS-DB", "MMS-DB",
-              "CRM-ALB", "CRM-ALB", "CRM-WEB", "CRM-WEB", "CRM-API", "CRM-API", "CRM-STORAGE", "CRM-STORAGE", "CRM-REDIS", "CRM-REDIS", "CRM-DB", "CRM-DB",  
-              "ECOMM-ALB", "ECOMM-ALB", "ECOMM-WEB", "ECOMM-WEB", "ECOMM-API", "ECOMM-API", "ECOMM-ADMIN", "ECOMM-ADMIN", "ECOMM-STORAGE", "ECOMM-STORAGE", "ECOMM-REDIS", "ECOMM-REDIS", "ECOMM-DB", "ECOMM-DB",
-              "VACANT", "VACANT", "GATEWAY-SFTP", "GATEWAY-SFTP", 
-              "IEGRESS-NGFW", "IEGRESS-NGFW", 
-              "OTHERS-ALB", "OTHERS-ALB", "OTHERS-WEB", "OTHERS-WEB", "OTHERS-DB", "OTHERS-DB" 
-  ]
+  type = map(any)
+  default = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "public_subnets" {
   description = "A list of public subnets inside the VPC"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "private_subnets" {
   description = "A list of private subnets inside the VPC"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "azs" {
@@ -704,4 +717,16 @@ variable "create_egress_only_igw" {
   description = "Controls if an Egress Only Internet Gateway is created and its related routes."
   type        = bool
   default     = true
+}
+
+variable "prevent_destroy_vpc" {
+    description = "Controls the prevent_destroy lifecycle for VPC"
+    type = bool
+    default = true
+}
+
+variable "create_before_destroy_vpc" {
+    description = "Controls the create_before__destroy lifecycle for VPC"
+    type = bool
+    default = true
 }

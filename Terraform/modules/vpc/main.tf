@@ -47,6 +47,11 @@ resource "aws_vpc" "this" {
     var.tags,
     var.vpc_tags,
   )
+
+  lifecycle {
+    prevent_destroy = var.prevent_destroy_vpc
+    create_before_destroy = var.create_before_destroy_vpc
+  }
 }
 
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
