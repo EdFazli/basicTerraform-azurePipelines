@@ -146,7 +146,12 @@ variable "private_subnets_name" {
       "GATEWAY-SFTP", "GATEWAY-SFTP",
       "OTHERS-WEB", "OTHERS-WEB", "OTHERS-DB", "OTHERS-DB",
     ]
-    PROD-SYDNEY = []
+    PROD-SYDNEY = [
+      "IEGRESS-NGFW", "IGRESS-NGFW",
+      "GATEWAY-SFTP", "GATEWAY-SFTP",
+      "CRM-ALB", "CRM-ALB", "CRM-WEB", "CRM-WEB", "CRM-API", "CRM-API", "CRM-STORAGE", "CRM-STORAGE", "CRM-REDIS", "CRM-REDIS", "CRM-DB", "CRM-DB",
+      "OTHERS-ALB", "OTHERS-ALB", "OTHERS-WEB", "OTHERS-WEB",
+    ]
   }
 }
 
@@ -169,7 +174,12 @@ variable "private_subnets" {
       "10.101.17.0/25", "10.101.17.128/25",
       "10.101.129.0/25", "10.101.129.128/25", "10.101.143.0/25", "10.101.143.128/25",
     ]
-    PROD-SYDNEY = []
+    PROD-SYDNEY = [
+      "10.110.1.0/25", "10.110.1.128/25",
+      "10.110.17.0/25", "10.110.17.128/25",
+      "10.110.48.0/25", "10.110.48.128/25", "10.110.49.0/25", "10.110.49.128/25", "10.110.49.0/25", "10.110.49.128/25", "10.110.50.0/25", "10.110.50.128/25", "10.110.61.0/25", "10.110.61.128/25", "10.110.62.0/25", "10.110.62.128/25", "10.110.63.0/25", "10.110.63.128/25",
+      "10.110.128.0/25", "10.110.128.128/25", "10.110.129.0/25", "10.110.129.128/25",
+    ]
   }
 }
 
