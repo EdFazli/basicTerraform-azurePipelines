@@ -120,7 +120,7 @@ variable "public_subnets_name" {
   description = "List of name for the public subnets"
   type = map(any)
   default = {
-    SIT         = []
+    SIT         = ["GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-SFTP", "GATEWAY-SFTP", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
     UAT         = []
     PROD        = []
     PROD-SYDNEY = []
@@ -131,7 +131,7 @@ variable "public_subnets" {
   description = "A list of public subnets inside the VPC"
   type        = map(any)
   default     = {
-    SIT         = []
+    SIT         = ["10.210.0.0/25", "10.210.0.128/25", "10.210.1.0/25", "10.210.1.128/25", "10.210.2.0/25", "10.210.2.128/25"]
     UAT         = []
     PROD        = []
     PROD-SYDNEY = []
