@@ -55,14 +55,24 @@ variable "enable_ipv6" {
 
 variable "private_subnet_ipv6_prefixes" {
   description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []  
+  }
 }
 
 variable "public_subnet_ipv6_prefixes" {
   description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []  
+  }
 }
 
 variable "assign_ipv6_address_on_creation" {
@@ -85,8 +95,13 @@ variable "public_subnet_assign_ipv6_address_on_creation" {
 
 variable "secondary_cidr_blocks" {
   description = "List of secondary CIDR blocks to associate with the VPC to extend the IP Address pool"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []  
+  }
 }
 
 variable "instance_tenancy" {
@@ -112,6 +127,17 @@ variable "public_subnets_name" {
   }
 }
 
+variable "public_subnets" {
+  description = "A list of public subnets inside the VPC"
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
+}
+
 variable "private_subnet_suffix" {
   description = "Suffix to append to private subnets name"
   type        = string
@@ -122,17 +148,6 @@ variable "private_subnets_name" {
   description = "List of name for the private subnets"
   type = map(any)
   default = {
-    SIT         = []
-    UAT         = []
-    PROD        = []
-    PROD-SYDNEY = []
-  }
-}
-
-variable "public_subnets" {
-  description = "A list of public subnets inside the VPC"
-  type        = map(any)
-  default     = {
     SIT         = []
     UAT         = []
     PROD        = []
