@@ -1,11 +1,16 @@
 ########################
 # Variable declaration #
 ########################
-# variable "region" {
-#   type = string
-#   description = "Which region you want to provision your resources? Default: ap-southeast-1"
-#   default = "ap-southeast-1"
-# }
+variable "region" {
+  description = "Which region you want to provision your resources?"
+  type = map(any)
+  default = {
+    "SIT" = "ap-southeast-1"
+    "UAT" = "ap-southeast-1"
+    "PROD" = "ap-southeast-1"
+    "PROD-SYDNEY" = "ap-southeast-2"
+  }
+}
 
 variable "create_vpc" {
   description = "Controls if VPC should be created (it affects almost all resources)"
