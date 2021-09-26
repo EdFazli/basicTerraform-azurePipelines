@@ -132,7 +132,8 @@ variable "private_subnets_name" {
   type = map(any)
   default = {
     SIT         = [
-      "10.210.16.0/25", "10.210.16.128", 
+      "ECOMM-ALB", "ECOMM-ALB", "ECOMM-WEB", "ECOMM-WEB", "ECOMM-API", "ECOMM-API", "ECOMM-ADMIN", "ECOMM-ADMIN", "ECOMM-STORAGE", "ECOMM-STORAGE", "ECOMM-REDIS", "ECOMM-REDIS", "ECOMM-DB", "ECOMM-DB",
+      
     ]
     UAT         = []
     PROD        = []
@@ -144,7 +145,10 @@ variable "private_subnets" {
   description = "A list of private subnets inside the VPC"
   type        = map(any)
   default     = {
-    SIT         = []
+    SIT         = [
+      "10.210.16.0/25", "10.210.16.128", "10.210.17.0/25", "10.210.17.128", "10.210.18.0/25", "10.210.18.128", "10.210.19.0/25", "10.210.19.128", "10.210.29.0/25", "10.210.29.128", "10.210.30.0/25", "10.210.30.128", "10.210.31.0/25", "10.210.131.128",
+      
+    ]
     UAT         = []
     PROD        = []
     PROD-SYDNEY = []
