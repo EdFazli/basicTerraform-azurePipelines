@@ -141,7 +141,11 @@ variable "private_subnets_name" {
       "GATEWAY-SFTP", "GATEWAY-SFTP",
       "OTHERS-ALB", "OTHERS-ALB", "OTHERS-WEB", "OTHERS-WEB", "OTHERS-DB", "OTHERS-DB",
     ]
-    PROD        = []
+    PROD        = [
+      "IEGRESS-NGFW", "IGRESS-NGFW",
+      "GATEWAY-SFTP", "GATEWAY-SFTP",
+      "OTHERS-WEB", "OTHERS-WEB", "OTHERS-DB", "OTHERS-DB",
+    ]
     PROD-SYDNEY = []
   }
 }
@@ -160,7 +164,11 @@ variable "private_subnets" {
       "10.220.17.0/25", "10.220.17.128/25",
       "10.220.128.0/25", "10.220.128.128/25", "10.220.129.0/25", "10.220.129.128/25", "10.220.143.0/25", "10.220.143.128/25",
     ]
-    PROD        = []
+    PROD        = [
+      "10.101.1.0/25", "10.101.1.128/25",
+      "10.101.17.0/25", "10.101.17.128/25",
+      "10.101.129.0/25", "10.101.129.128/25", "10.101.143.0/25", "10.101.143.128/25",
+    ]
     PROD-SYDNEY = []
   }
 }
