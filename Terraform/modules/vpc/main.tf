@@ -12,7 +12,7 @@ locals {
   max_subnet_length = max(
     length(var.private_subnets)
   )
-  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(var.azs) : local.max_subnet_length
+  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length("${var.azs[local.env]}") : local.max_subnet_length
 
   # Use `local.vpc_id` to give a hint to Terraform that subnets should be deleted before secondary CIDR blocks can be free!
   vpc_id = element(
@@ -256,7 +256,7 @@ resource "aws_route_table" "private" {
       "Name" = var.single_nat_gateway ? "${local.env}-VPC-${var.private_subnet_suffix}" : format(
         "%s-${var.private_subnet_suffix}-%s",
         var.name,
-        element(var.azs, count.index),
+        element("${var.azs[local.env]}", count.index),
       )
     },
     var.tags,
@@ -269,12 +269,12 @@ resource "aws_route_table" "private" {
 ################################################################################
 
 resource "aws_subnet" "public" {
-  count = var.create_vpc && length(var.public_subnets) > 0 && (false == var.one_nat_gateway_per_az || length(var.public_subnets) >= length(var.azs)) ? length(var.public_subnets) : 0
+  count = var.create_vpc && length(var.public_subnets) > 0 && (false == var.one_nat_gateway_per_az || length(var.public_subnets) >= length("${var.azs[local.env]}")) ? length(var.public_subnets) : 0
 
   vpc_id                          = local.vpc_id
   cidr_block                      = element(concat(var.public_subnets, [""]), count.index)
-  availability_zone               = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
-  availability_zone_id            = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
+  availability_zone               = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) > 0 ? element("${var.azs[local.env]}", count.index) : null
+  availability_zone_id            = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) == 0 ? element("${var.azs[local.env]}", count.index) : null
   map_public_ip_on_launch         = var.map_public_ip_on_launch
   assign_ipv6_address_on_creation = var.public_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.public_subnet_assign_ipv6_address_on_creation
 
@@ -285,7 +285,7 @@ resource "aws_subnet" "public" {
       "Name" = format(
         "%s-${var.public_subnet_suffix}-%s",
         element(var.public_subnets_name, count.index),
-        element(var.azs, count.index),
+        element("${var.azs[local.env]}", count.index),
       )
     },
     var.tags,
@@ -302,8 +302,8 @@ resource "aws_subnet" "private" {
 
   vpc_id                          = local.vpc_id
   cidr_block                      = var.private_subnets[count.index]
-  availability_zone               = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
-  availability_zone_id            = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
+  availability_zone               = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) > 0 ? element("${var.azs[local.env]}", count.index) : null
+  availability_zone_id            = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) == 0 ? element("${var.azs[local.env]}", count.index) : null
   assign_ipv6_address_on_creation = var.private_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.private_subnet_assign_ipv6_address_on_creation
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.private_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.private_subnet_ipv6_prefixes[count.index]) : null
@@ -313,7 +313,7 @@ resource "aws_subnet" "private" {
       "Name" = format(
         "%s-${var.private_subnet_suffix}-%s",
         element(var.private_subnets_name, count.index),
-        element(var.azs, count.index),
+        element("${var.azs[local.env]}", count.index),
       )
     },
     var.tags,
@@ -526,7 +526,7 @@ resource "aws_eip" "nat" {
       "Name" = format(
         "%s-%s",
         "GATEWAY-NGW-EIP",
-        element(var.azs, var.single_nat_gateway ? 0 : count.index),
+        element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
       )
     },
     var.tags,
@@ -551,7 +551,7 @@ resource "aws_nat_gateway" "this" {
       "Name" = format(
         "%s-%s",
         "GATEWAY-NGW",
-        element(var.azs, var.single_nat_gateway ? 0 : count.index),
+        element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
       )
     },
     var.tags,

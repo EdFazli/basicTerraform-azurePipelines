@@ -1,28 +1,11 @@
-#########################
-# variables declaration #
-#########################
-
-#Define private_subnets
-variable "private_subnets" {
-  type = map(any)
-  default = {
-    SIT  = ["10.8.0.0/24"]
-    UAT = ["10.9.0.0/24", "10.9.1.0/24"]
-    PROD = ["10.10.0.0/24", "10.10.1.0/24", "10.10.2.0/24"]
-    PROD-SYDNEY = []
-  }
-}
-
-
-
 ########################
 # Variable declaration #
 ########################
-variable "region" {
-  type = string
-  description = "Which region you want to provision your resources? Default: ap-southeast-1"
-  default = "ap-southeast-1"
-}
+# variable "region" {
+#   type = string
+#   description = "Which region you want to provision your resources? Default: ap-southeast-1"
+#   default = "ap-southeast-1"
+# }
 
 variable "create_vpc" {
   description = "Controls if VPC should be created (it affects almost all resources)"
@@ -148,7 +131,9 @@ variable "private_subnets_name" {
   description = "List of name for the private subnets"
   type = map(any)
   default = {
-    SIT         = []
+    SIT         = [
+      "10.210.16.0/25", "10.210.16.128", 
+    ]
     UAT         = []
     PROD        = []
     PROD-SYDNEY = []
@@ -168,8 +153,13 @@ variable "private_subnets" {
 
 variable "azs" {
   description = "A list of availability zones names or ids in the region"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = ["ap-southeast-1a", "ap-southeast-1b"]
+    UAT         = ["ap-southeast-1a", "ap-southeast-1b"]
+    PROD        = ["ap-southeast-1a", "ap-southeast-1b"]
+    PROD-SYDNEY = ["ap-southeast-2a", "ap-southeast-2b"]
+  }
 }
 
 variable "enable_dns_hostnames" {
