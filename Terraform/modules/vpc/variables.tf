@@ -122,7 +122,7 @@ variable "public_subnets_name" {
   default = {
     SIT         = ["GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-SFTP", "GATEWAY-SFTP", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
     UAT         = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
-    PROD        = []
+    PROD        = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY", "OTHERS-ALB", "OTHERS-ALB"]
     PROD-SYDNEY = []
   }
 }
@@ -133,7 +133,7 @@ variable "public_subnets" {
   default     = {
     SIT         = ["10.210.0.0/25", "10.210.0.128/25", "10.210.1.0/25", "10.210.1.128/25", "10.210.2.0/25", "10.210.2.128/25"]
     UAT         = ["10.220.0.0/25", "10.220.0.128/25", "10.220.16.0/25", "10.220.16.128/25", "10.220.18.0/25", "10.220.18.128/25"]
-    PROD        = []
+    PROD        = ["10.101.0.0/25", "10.101.0.128/25", "10.101.16.0/25", "10.101.16.128/25", "10.101.18.0/25", "10.101.18.128/25", "10.101.128.0/25", "10.101.128.128/25",]
     PROD-SYDNEY = []
   }
 }
