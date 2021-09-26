@@ -9,8 +9,10 @@ terraform {
 # define resources #
 ####################
 locals {
+
+  env = terraform.workspace
   max_subnet_length = max(
-    length(var.private_subnets)
+    length("${var.private_subnets[local.env]}")
   )
   nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length("${var.azs[local.env]}") : local.max_subnet_length
 
@@ -298,10 +300,10 @@ resource "aws_subnet" "public" {
 ################################################################################
 
 resource "aws_subnet" "private" {
-  count = var.create_vpc && length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
+  count = var.create_vpc && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
 
   vpc_id                          = local.vpc_id
-  cidr_block                      = var.private_subnets[count.index]
+  cidr_block                      = lookup(var.private_subnets[count.index], local.env)
   availability_zone               = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) > 0 ? element("${var.azs[local.env]}", count.index) : null
   availability_zone_id            = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) == 0 ? element("${var.azs[local.env]}", count.index) : null
   assign_ipv6_address_on_creation = var.private_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.private_subnet_assign_ipv6_address_on_creation
@@ -312,7 +314,7 @@ resource "aws_subnet" "private" {
     {
       "Name" = format(
         "%s-${var.private_subnet_suffix}-%s",
-        element(var.private_subnets_name, count.index),
+        element("${var.private_subnets_name[local.env]}", count.index),
         element("${var.azs[local.env]}", count.index),
       )
     },
@@ -336,20 +338,10 @@ resource "aws_default_network_acl" "this" {
     compact(flatten([
       aws_subnet.public.*.id,
       aws_subnet.private.*.id,
-      aws_subnet.intra.*.id,
-      aws_subnet.database.*.id,
-      aws_subnet.redshift.*.id,
-      aws_subnet.elasticache.*.id,
-      aws_subnet.outpost.*.id,
     ])),
     compact(flatten([
       aws_network_acl.public.*.subnet_ids,
       aws_network_acl.private.*.subnet_ids,
-      aws_network_acl.intra.*.subnet_ids,
-      aws_network_acl.database.*.subnet_ids,
-      aws_network_acl.redshift.*.subnet_ids,
-      aws_network_acl.elasticache.*.subnet_ids,
-      aws_network_acl.outpost.*.subnet_ids,
     ]))
   )
 
@@ -449,7 +441,7 @@ resource "aws_network_acl_rule" "public_outbound" {
 ################################################################################
 
 resource "aws_network_acl" "private" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length(var.private_subnets) > 0 ? 1 : 0
+  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id     = element(concat(aws_vpc.this.*.id, [""]), 0)
   subnet_ids = aws_subnet.private.*.id
@@ -464,7 +456,7 @@ resource "aws_network_acl" "private" {
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length(var.private_subnets) > 0 ? length(var.private_inbound_acl_rules) : 0
+  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
@@ -481,7 +473,7 @@ resource "aws_network_acl_rule" "private_inbound" {
 }
 
 resource "aws_network_acl_rule" "private_outbound" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length(var.private_subnets) > 0 ? length(var.private_outbound_acl_rules) : 0
+  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
@@ -574,7 +566,7 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 resource "aws_route" "private_ipv6_egress" {
-  count = var.create_vpc && var.create_egress_only_igw && var.enable_ipv6 ? length(var.private_subnets) : 0
+  count = var.create_vpc && var.create_egress_only_igw && var.enable_ipv6 ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id              = element(aws_route_table.private.*.id, count.index)
   destination_ipv6_cidr_block = "::/0"
@@ -586,7 +578,7 @@ resource "aws_route" "private_ipv6_egress" {
 ################################################################################
 
 resource "aws_route_table_association" "private" {
-  count = var.create_vpc && length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
+  count = var.create_vpc && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
 
   subnet_id = element(aws_subnet.private.*.id, count.index)
   route_table_id = element(
@@ -663,22 +655,9 @@ resource "aws_vpn_gateway_route_propagation" "public" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "private" {
-  count = var.create_vpc && var.propagate_private_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length(var.private_subnets) : 0
+  count = var.create_vpc && var.propagate_private_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id = element(aws_route_table.private.*.id, count.index)
-  vpn_gateway_id = element(
-    concat(
-      aws_vpn_gateway.this.*.id,
-      aws_vpn_gateway_attachment.this.*.vpn_gateway_id,
-    ),
-    count.index,
-  )
-}
-
-resource "aws_vpn_gateway_route_propagation" "intra" {
-  count = var.create_vpc && var.propagate_intra_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length(var.intra_subnets) : 0
-
-  route_table_id = element(aws_route_table.intra.*.id, count.index)
   vpn_gateway_id = element(
     concat(
       aws_vpn_gateway.this.*.id,
