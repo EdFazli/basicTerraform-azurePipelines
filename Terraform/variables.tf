@@ -5,8 +5,14 @@ locals {
   env = terraform.workspace
 }
 variable "region" {
-    type = string
-    description = "Which region you want to provision your resources?"
+  description = "Which region you want to provision your resources?"
+  type = map(any)
+  default = {
+    "SIT" = "ap-southeast-1"
+    "UAT" = "ap-southeast-1"
+    "PROD" = "ap-southeast-1"
+    "PROD-SYDNEY" = "ap-southeast-2"
+  }
 }
 
 variable "provider_env_roles" {
