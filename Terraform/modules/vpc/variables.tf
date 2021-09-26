@@ -121,7 +121,7 @@ variable "public_subnets_name" {
   type = map(any)
   default = {
     SIT         = ["GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-SFTP", "GATEWAY-SFTP", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
-    UAT         = []
+    UAT         = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
     PROD        = []
     PROD-SYDNEY = []
   }
@@ -132,7 +132,7 @@ variable "public_subnets" {
   type        = map(any)
   default     = {
     SIT         = ["10.210.0.0/25", "10.210.0.128/25", "10.210.1.0/25", "10.210.1.128/25", "10.210.2.0/25", "10.210.2.128/25"]
-    UAT         = []
+    UAT         = ["10.220.0.0/25", "10.220.0.128/25", "10.220.16.0/25", "10.220.16.128/25", "10.220.18.0/25", "10.220.18.128/25"]
     PROD        = []
     PROD-SYDNEY = []
   }
