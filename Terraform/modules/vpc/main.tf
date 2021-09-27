@@ -156,7 +156,7 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_egress_only_internet_gateway" "this" {
-  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && var.enable_ipv6 && local.max_subnet_length > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && "${var.enable_ipv6[local.env]}" && local.max_subnet_length > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -236,7 +236,7 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 resource "aws_route" "public_internet_gateway_ipv6" {
-  count = "${var.create_vpc[local.env]}" && var.create_igw && var.enable_ipv6 && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_igw && "${var.enable_ipv6[local.env]}" && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   route_table_id              = aws_route_table.public[0].id
   destination_ipv6_cidr_block = "::/0"
@@ -280,7 +280,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch         = var.map_public_ip_on_launch
   assign_ipv6_address_on_creation = var.public_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.public_subnet_assign_ipv6_address_on_creation
 
-  ipv6_cidr_block = var.enable_ipv6 && length(var.public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.public_subnet_ipv6_prefixes[count.index]) : null
+  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length(var.public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.public_subnet_ipv6_prefixes[count.index]) : null
 
   tags = merge(
     {
@@ -308,7 +308,7 @@ resource "aws_subnet" "private" {
   availability_zone_id            = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) == 0 ? element("${var.azs[local.env]}", count.index) : null
   assign_ipv6_address_on_creation = var.private_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.private_subnet_assign_ipv6_address_on_creation
 
-  ipv6_cidr_block = var.enable_ipv6 && length(var.private_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.private_subnet_ipv6_prefixes[count.index]) : null
+  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length(var.private_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.private_subnet_ipv6_prefixes[count.index]) : null
 
   tags = merge(
     {
@@ -566,7 +566,7 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 resource "aws_route" "private_ipv6_egress" {
-  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && var.enable_ipv6 ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && "${var.enable_ipv6[local.env]}" ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id              = element(aws_route_table.private.*.id, count.index)
   destination_ipv6_cidr_block = "::/0"
