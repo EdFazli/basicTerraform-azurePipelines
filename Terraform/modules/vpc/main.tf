@@ -32,9 +32,9 @@ locals {
 ################################################################################
 
 resource "aws_vpc" "this" {
-  count = var.create_vpc ? 1 : 0
+  count = "${var.create_vpc[local.env]}" ? 1 : 0
 
-  cidr_block                       = lookup(var.cidr, local.env)
+  cidr_block                       = "${var.cidr[local.env]}"
   instance_tenancy                 = var.instance_tenancy
   enable_dns_hostnames             = var.enable_dns_hostnames
   enable_dns_support               = var.enable_dns_support
@@ -57,7 +57,7 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
-  count = var.create_vpc && length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
+  count = "${var.create_vpc[local.env]}" && length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
 
   vpc_id = aws_vpc.this[0].id
 
@@ -65,7 +65,7 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
 }
 
 resource "aws_default_security_group" "this" {
-  count = var.create_vpc && var.manage_default_security_group ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.manage_default_security_group ? 1 : 0
 
   vpc_id = aws_vpc.this[0].id
 
@@ -113,7 +113,7 @@ resource "aws_default_security_group" "this" {
 ################################################################################
 
 resource "aws_vpc_dhcp_options" "this" {
-  count = var.create_vpc && var.enable_dhcp_options ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_dhcp_options ? 1 : 0
 
   domain_name          = var.dhcp_options_domain_name
   domain_name_servers  = var.dhcp_options_domain_name_servers
@@ -131,7 +131,7 @@ resource "aws_vpc_dhcp_options" "this" {
 }
 
 resource "aws_vpc_dhcp_options_association" "this" {
-  count = var.create_vpc && var.enable_dhcp_options ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_dhcp_options ? 1 : 0
 
   vpc_id          = local.vpc_id
   dhcp_options_id = aws_vpc_dhcp_options.this[0].id
@@ -142,7 +142,7 @@ resource "aws_vpc_dhcp_options_association" "this" {
 ################################################################################
 
 resource "aws_internet_gateway" "this" {
-  count = var.create_vpc && var.create_igw && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_igw && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -156,7 +156,7 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_egress_only_internet_gateway" "this" {
-  count = var.create_vpc && var.create_egress_only_igw && var.enable_ipv6 && local.max_subnet_length > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && var.enable_ipv6 && local.max_subnet_length > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -174,7 +174,7 @@ resource "aws_egress_only_internet_gateway" "this" {
 ################################################################################
 
 resource "aws_default_route_table" "default" {
-  count = var.create_vpc && var.manage_default_route_table ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.manage_default_route_table ? 1 : 0
 
   default_route_table_id = aws_vpc.this[0].default_route_table_id
   propagating_vgws       = var.default_route_table_propagating_vgws
@@ -210,7 +210,7 @@ resource "aws_default_route_table" "default" {
 ################################################################################
 
 resource "aws_route_table" "public" {
-  count = var.create_vpc && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -224,7 +224,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public_internet_gateway" {
-  count = var.create_vpc && var.create_igw && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_igw && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   route_table_id         = aws_route_table.public[0].id
   destination_cidr_block = "0.0.0.0/0"
@@ -236,7 +236,7 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 resource "aws_route" "public_internet_gateway_ipv6" {
-  count = var.create_vpc && var.create_igw && var.enable_ipv6 && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.create_igw && var.enable_ipv6 && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   route_table_id              = aws_route_table.public[0].id
   destination_ipv6_cidr_block = "::/0"
@@ -271,7 +271,7 @@ resource "aws_route_table" "private" {
 ################################################################################
 
 resource "aws_subnet" "public" {
-  count = var.create_vpc && length("${var.public_subnets[local.env]}") > 0 && (false == var.one_nat_gateway_per_az || length("${var.public_subnets[local.env]}") >= length("${var.azs[local.env]}")) ? length("${var.public_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.public_subnets[local.env]}") > 0 && (false == var.one_nat_gateway_per_az || length("${var.public_subnets[local.env]}") >= length("${var.azs[local.env]}")) ? length("${var.public_subnets[local.env]}") : 0
 
   vpc_id                          = local.vpc_id
   cidr_block                      = element(concat("${var.public_subnets[local.env]}", [""]), count.index)
@@ -300,7 +300,7 @@ resource "aws_subnet" "public" {
 ################################################################################
 
 resource "aws_subnet" "private" {
-  count = var.create_vpc && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
 
   vpc_id                          = local.vpc_id
   cidr_block                      = lookup(var.private_subnets[count.index], local.env)
@@ -328,7 +328,7 @@ resource "aws_subnet" "private" {
 ################################################################################
 
 resource "aws_default_network_acl" "this" {
-  count = var.create_vpc && var.manage_default_network_acl ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.manage_default_network_acl ? 1 : 0
 
   default_network_acl_id = element(concat(aws_vpc.this.*.default_network_acl_id, [""]), 0)
 
@@ -403,7 +403,7 @@ resource "aws_network_acl" "public" {
 }
 
 resource "aws_network_acl_rule" "public_inbound" {
-  count = var.create_vpc && var.public_dedicated_network_acl && length("${var.public_subnets[local.env]}") > 0 ? length(var.public_inbound_acl_rules) : 0
+  count = "${var.create_vpc[local.env]}" && var.public_dedicated_network_acl && length("${var.public_subnets[local.env]}") > 0 ? length(var.public_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.public[0].id
 
@@ -441,7 +441,7 @@ resource "aws_network_acl_rule" "public_outbound" {
 ################################################################################
 
 resource "aws_network_acl" "private" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id     = element(concat(aws_vpc.this.*.id, [""]), 0)
   subnet_ids = aws_subnet.private.*.id
@@ -456,7 +456,7 @@ resource "aws_network_acl" "private" {
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_inbound_acl_rules) : 0
+  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
@@ -473,7 +473,7 @@ resource "aws_network_acl_rule" "private_inbound" {
 }
 
 resource "aws_network_acl_rule" "private_outbound" {
-  count = var.create_vpc && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_outbound_acl_rules) : 0
+  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
@@ -509,7 +509,7 @@ locals {
 }
 
 resource "aws_eip" "nat" {
-  count = var.create_vpc && var.enable_nat_gateway && false == var.reuse_nat_ips ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway && false == var.reuse_nat_ips ? local.nat_gateway_count : 0
 
   vpc = true
 
@@ -527,7 +527,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "this" {
-  count = var.create_vpc && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway ? local.nat_gateway_count : 0
 
   allocation_id = element(
     local.nat_gateway_ips,
@@ -554,7 +554,7 @@ resource "aws_nat_gateway" "this" {
 }
 
 resource "aws_route" "private_nat_gateway" {
-  count = var.create_vpc && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway ? local.nat_gateway_count : 0
 
   route_table_id         = element(aws_route_table.private.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
@@ -566,7 +566,7 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 resource "aws_route" "private_ipv6_egress" {
-  count = var.create_vpc && var.create_egress_only_igw && var.enable_ipv6 ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && var.enable_ipv6 ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id              = element(aws_route_table.private.*.id, count.index)
   destination_ipv6_cidr_block = "::/0"
@@ -578,7 +578,7 @@ resource "aws_route" "private_ipv6_egress" {
 ################################################################################
 
 resource "aws_route_table_association" "private" {
-  count = var.create_vpc && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_subnets[local.env]}") : 0
 
   subnet_id = element(aws_subnet.private.*.id, count.index)
   route_table_id = element(
@@ -588,7 +588,7 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_route_table_association" "public" {
-  count = var.create_vpc && length("${var.public_subnets[local.env]}") > 0 ? length("${var.public_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.public_subnets[local.env]}") > 0 ? length("${var.public_subnets[local.env]}") : 0
 
   subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.public[0].id
@@ -619,7 +619,7 @@ resource "aws_customer_gateway" "this" {
 ################################################################################
 
 resource "aws_vpn_gateway" "this" {
-  count = var.create_vpc && var.enable_vpn_gateway ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.enable_vpn_gateway ? 1 : 0
 
   vpc_id            = local.vpc_id
   amazon_side_asn   = var.amazon_side_asn
@@ -642,7 +642,7 @@ resource "aws_vpn_gateway_attachment" "this" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "public" {
-  count = var.create_vpc && var.propagate_public_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && var.propagate_public_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? 1 : 0
 
   route_table_id = element(aws_route_table.public.*.id, count.index)
   vpn_gateway_id = element(
@@ -655,7 +655,7 @@ resource "aws_vpn_gateway_route_propagation" "public" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "private" {
-  count = var.create_vpc && var.propagate_private_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && var.propagate_private_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id = element(aws_route_table.private.*.id, count.index)
   vpn_gateway_id = element(
