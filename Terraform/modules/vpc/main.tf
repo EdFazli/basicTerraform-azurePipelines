@@ -142,7 +142,7 @@ resource "aws_vpc_dhcp_options_association" "this" {
 ################################################################################
 
 resource "aws_internet_gateway" "this" {
-  count = "${var.create_vpc[local.env]}" && var.create_igw && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.create_igw[local.env]}" && length("${var.public_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -151,12 +151,12 @@ resource "aws_internet_gateway" "this" {
       "Name" = format("%s", "${local.env}-VPC")
     },
     "${var.tags[local.env]}",
-    var.igw_tags,
+    "${var.igw_tags[local.env]}",
   )
 }
 
 resource "aws_egress_only_internet_gateway" "this" {
-  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && "${var.enable_ipv6[local.env]}" && local.max_subnet_length > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.create_egress_only_igw[local.env]}" && "${var.enable_ipv6[local.env]}" && local.max_subnet_length > 0 ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -165,7 +165,7 @@ resource "aws_egress_only_internet_gateway" "this" {
       "Name" = format("%s", "${local.env}-VPC")
     },
     "${var.tags[local.env]}",
-    var.igw_tags,
+    "${var.igw_tags[local.env]}",
   )
 }
 
