@@ -840,32 +840,94 @@ variable "public_dedicated_network_acl" {
 
 variable "private_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for private subnets"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_network_acl_ingress" {
   description = "List of maps of ingress rules to set on the Default Network ACL"
-  type        = list(map(string))
+  type        = map(any)
 
-  default = [
-    {
+  default = {
+    SIT = [
+      {
       rule_no    = 100
       action     = "allow"
       from_port  = 0
       to_port    = 0
       protocol   = "-1"
       cidr_block = "0.0.0.0/0"
-    },
-    {
+      },
+      {
       rule_no         = 101
       action          = "allow"
       from_port       = 0
       to_port         = 0
       protocol        = "-1"
       ipv6_cidr_block = "::/0"
-    },
-  ]
+      }
+    ]
+    UAT = [
+      {
+      rule_no    = 100
+      action     = "allow"
+      from_port  = 0
+      to_port    = 0
+      protocol   = "-1"
+      cidr_block = "0.0.0.0/0"
+      },
+      {
+      rule_no         = 101
+      action          = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+      }
+    ]
+    PROD = [
+      {
+      rule_no    = 100
+      action     = "allow"
+      from_port  = 0
+      to_port    = 0
+      protocol   = "-1"
+      cidr_block = "0.0.0.0/0"
+      },
+      {
+      rule_no         = 101
+      action          = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+      }
+    ]
+    PROD-SYDNEY = [
+      {
+      rule_no    = 100
+      action     = "allow"
+      from_port  = 0
+      to_port    = 0
+      protocol   = "-1"
+      cidr_block = "0.0.0.0/0"
+      },
+      {
+      rule_no         = 101
+      action          = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+      }
+    ]
+
+  }
 }
 
 variable "default_network_acl_egress" {
