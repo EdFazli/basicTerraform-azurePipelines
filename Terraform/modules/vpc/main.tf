@@ -57,11 +57,11 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
-  count = "${var.create_vpc[local.env]}" && length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.secondary_cidr_blocks[local.env]}") > 0 ? length("${var.secondary_cidr_blocks[local.env]}") : 0
 
   vpc_id = aws_vpc.this[0].id
 
-  cidr_block = element(var.secondary_cidr_blocks, count.index)
+  cidr_block = element("${var.secondary_cidr_blocks[local.env]}", count.index)
 }
 
 resource "aws_default_security_group" "this" {
