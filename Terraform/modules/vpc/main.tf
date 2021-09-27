@@ -433,7 +433,7 @@ resource "aws_network_acl_rule" "public_outbound" {
   icmp_type       = lookup("${var.public_outbound_acl_rules[local.env]}"[count.index], "icmp_type", null)
   protocol        = "${var.public_outbound_acl_rules[local.env]}"[count.index]["protocol"]
   cidr_block      = lookup("${var.public_outbound_acl_rules[local.env]}"[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup("${var.public_outbound_acl_rules[local.env]}"s[count.index], "ipv6_cidr_block", null)
+  ipv6_cidr_block = lookup("${var.public_outbound_acl_rules[local.env]}"[count.index], "ipv6_cidr_block", null)
 }
 
 ################################################################################
@@ -441,7 +441,7 @@ resource "aws_network_acl_rule" "public_outbound" {
 ################################################################################
 
 resource "aws_network_acl" "private" {
-  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.private_dedicated_network_acl[local.env]}" && length("${var.private_subnets[local.env]}") > 0 ? 1 : 0
 
   vpc_id     = element(concat(aws_vpc.this.*.id, [""]), 0)
   subnet_ids = aws_subnet.private.*.id
@@ -451,42 +451,42 @@ resource "aws_network_acl" "private" {
       "Name" = format("%s-${var.private_subnet_suffix}", "${local.env}-VPC")
     },
     "${var.tags[local.env]}",
-    var.private_acl_tags,
+    "${var.private_acl_tags[local.env]}",
   )
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
-  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_inbound_acl_rules) : 0
+  count = "${var.create_vpc[local.env]}" && "${var.private_dedicated_network_acl[local.env]}" && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_inbound_acl_rules[local.env]}") : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
   egress          = false
-  rule_number     = var.private_inbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.private_inbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.private_inbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.private_inbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.private_inbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.private_inbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.private_inbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.private_inbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.private_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = "${var.private_inbound_acl_rules[local.env]}"[count.index]["rule_number"]
+  rule_action     = "${var.private_inbound_acl_rules[local.env]}"[count.index]["rule_action"]
+  from_port       = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "from_port", null)
+  to_port         = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "to_port", null)
+  icmp_code       = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "icmp_code", null)
+  icmp_type       = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "icmp_type", null)
+  protocol        = "${var.private_inbound_acl_rules[local.env]}"[count.index]["protocol"]
+  cidr_block      = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup("${var.private_inbound_acl_rules[local.env]}"[count.index], "ipv6_cidr_block", null)
 }
 
 resource "aws_network_acl_rule" "private_outbound" {
-  count = "${var.create_vpc[local.env]}" && var.private_dedicated_network_acl && length("${var.private_subnets[local.env]}") > 0 ? length(var.private_outbound_acl_rules) : 0
+  count = "${var.create_vpc[local.env]}" && "${var.private_dedicated_network_acl[local.env]}" && length("${var.private_subnets[local.env]}") > 0 ? length("${var.private_outbound_acl_rules[local.env]}") : 0
 
   network_acl_id = aws_network_acl.private[0].id
 
   egress          = true
-  rule_number     = var.private_outbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.private_outbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.private_outbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.private_outbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.private_outbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.private_outbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.private_outbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.private_outbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.private_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = "${var.private_outbound_acl_rules[local.env]}"[count.index]["rule_number"]
+  rule_action     = "${var.private_outbound_acl_rules[local.env]}"[count.index]["rule_action"]
+  from_port       = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "from_port", null)
+  to_port         = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "to_port", null)
+  icmp_code       = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "icmp_code", null)
+  icmp_type       = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "icmp_type", null)
+  protocol        = "${var.private_outbound_acl_rules[local.env]}"[count.index]["protocol"]
+  cidr_block      = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup("${var.private_outbound_acl_rules[local.env]}"[count.index], "ipv6_cidr_block", null)
 }
 
 ################################################################################
