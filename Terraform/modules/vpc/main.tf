@@ -255,7 +255,7 @@ resource "aws_route_table" "private" {
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway ? "${local.env}-VPC-${var.private_subnet_suffix}" : format(
+      "Name" = "${var.single_nat_gateway[local.env]}" ? "${local.env}-VPC-${var.private_subnet_suffix}" : format(
         "%s-${var.private_subnet_suffix}-%s",
         "${var.name[local.env]}",
         element("${var.azs[local.env]}", count.index),
@@ -518,7 +518,7 @@ resource "aws_eip" "nat" {
       "Name" = format(
         "%s-%s",
         "GATEWAY-NGW-EIP",
-        element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
+        element("${var.azs[local.env]}", "${var.single_nat_gateway[local.env]}" ? 0 : count.index),
       )
     },
     "${var.tags[local.env]}",
@@ -531,11 +531,11 @@ resource "aws_nat_gateway" "this" {
 
   allocation_id = element(
     local.nat_gateway_ips,
-    var.single_nat_gateway ? 0 : count.index + 2,
+    "${var.single_nat_gateway[local.env]}" ? 0 : count.index + 2,
   )
   subnet_id = element(
     aws_subnet.public.*.id,
-    var.single_nat_gateway ? 0 : count.index + 2,
+    "${var.single_nat_gateway[local.env]}" ? 0 : count.index + 2,
   )
 
   tags = merge(
@@ -543,7 +543,7 @@ resource "aws_nat_gateway" "this" {
       "Name" = format(
         "%s-%s",
         "GATEWAY-NGW",
-        element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
+        element("${var.azs[local.env]}", "${var.single_nat_gateway[local.env]}" ? 0 : count.index),
       )
     },
     "${var.tags[local.env]}",
@@ -583,7 +583,7 @@ resource "aws_route_table_association" "private" {
   subnet_id = element(aws_subnet.private.*.id, count.index)
   route_table_id = element(
     aws_route_table.private.*.id,
-    var.single_nat_gateway ? 0 : count.index,
+    "${var.single_nat_gateway[local.env]}" ? 0 : count.index,
   )
 }
 
