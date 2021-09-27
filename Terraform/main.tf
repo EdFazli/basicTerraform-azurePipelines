@@ -4,7 +4,7 @@
 
 #-------------------VPC-------------------#
 
-module "base_vpc_setup" {
+module "base_vpc" {
     source = "./modules/vpc"
 
 }
