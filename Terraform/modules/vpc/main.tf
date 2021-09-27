@@ -14,7 +14,7 @@ locals {
   max_subnet_length = max(
     length("${var.private_subnets[local.env]}")
   )
-  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length("${var.azs[local.env]}") : local.max_subnet_length
+  nat_gateway_count = "${var.single_nat_gateway[local.env]}" ? 1 : "${var.one_nat_gateway_per_az[local.env]}" ? length("${var.azs[local.env]}") : local.max_subnet_length
 
   # Use `local.vpc_id` to give a hint to Terraform that subnets should be deleted before secondary CIDR blocks can be free!
   vpc_id = element(
@@ -35,24 +35,24 @@ resource "aws_vpc" "this" {
   count = "${var.create_vpc[local.env]}" ? 1 : 0
 
   cidr_block                       = "${var.cidr[local.env]}"
-  instance_tenancy                 = var.instance_tenancy
-  enable_dns_hostnames             = var.enable_dns_hostnames
-  enable_dns_support               = var.enable_dns_support
-  enable_classiclink               = var.enable_classiclink
-  enable_classiclink_dns_support   = var.enable_classiclink_dns_support
-  assign_generated_ipv6_cidr_block = var.enable_ipv6
+  instance_tenancy                 = "${var.instance_tenancy[local.env]}"
+  enable_dns_hostnames             = "${var.enable_dns_hostnames[local.env]}"
+  enable_dns_support               = "${var.enable_dns_support[local.env]}"
+  enable_classiclink               = "${var.enable_classiclink[local.env]}"
+  enable_classiclink_dns_support   = "${var.enable_classiclink_dns_support[local.env]}"
+  assign_generated_ipv6_cidr_block = "${var.enable_ipv6[local.env]}"
 
   tags = merge(
     {
       "Name" = format("%s", "${local.env}-VPC")
     },
-    var.tags,
-    var.vpc_tags,
+    "${var.tags[local.env]}",
+    "${var.vpc_tags[local.env]}",
   )
 
   lifecycle {
-    prevent_destroy = var.prevent_destroy_vpc
-    create_before_destroy = var.create_before_destroy_vpc
+    prevent_destroy = "${var.prevent_destroy_vpc[local.env]}"
+    create_before_destroy = "${var.create_before_destroy_vpc[local.env]}"
   }
 }
 
@@ -103,7 +103,7 @@ resource "aws_default_security_group" "this" {
     {
       "Name" = format("%s", var.default_security_group_name)
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.default_security_group_tags,
   )
 }
@@ -125,7 +125,7 @@ resource "aws_vpc_dhcp_options" "this" {
     {
       "Name" = format("%s", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.dhcp_options_tags,
   )
 }
@@ -150,7 +150,7 @@ resource "aws_internet_gateway" "this" {
     {
       "Name" = format("%s", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.igw_tags,
   )
 }
@@ -164,7 +164,7 @@ resource "aws_egress_only_internet_gateway" "this" {
     {
       "Name" = format("%s", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.igw_tags,
   )
 }
@@ -200,7 +200,7 @@ resource "aws_default_route_table" "default" {
 
   tags = merge(
     { "Name" = "${local.env}-VPC" },
-    var.tags,
+    "${var.tags[local.env]}",
     var.default_route_table_tags,
   )
 }
@@ -218,7 +218,7 @@ resource "aws_route_table" "public" {
     {
       "Name" = format("%s-${var.public_subnet_suffix}", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.public_route_table_tags,
   )
 }
@@ -261,7 +261,7 @@ resource "aws_route_table" "private" {
         element("${var.azs[local.env]}", count.index),
       )
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.private_route_table_tags,
   )
 }
@@ -290,7 +290,7 @@ resource "aws_subnet" "public" {
         element("${var.azs[local.env]}", count.index),
       )
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.public_subnet_tags,
   )
 }
@@ -318,7 +318,7 @@ resource "aws_subnet" "private" {
         element("${var.azs[local.env]}", count.index),
       )
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.private_subnet_tags,
   )
 }
@@ -378,7 +378,7 @@ resource "aws_default_network_acl" "this" {
     {
       "Name" = format("%s", var.default_network_acl_name)
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.default_network_acl_tags,
   )
 }
@@ -397,7 +397,7 @@ resource "aws_network_acl" "public" {
     {
       "Name" = format("%s-${var.public_subnet_suffix}", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.public_acl_tags,
   )
 }
@@ -450,7 +450,7 @@ resource "aws_network_acl" "private" {
     {
       "Name" = format("%s-${var.private_subnet_suffix}", "${local.env}-VPC")
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.private_acl_tags,
   )
 }
@@ -521,7 +521,7 @@ resource "aws_eip" "nat" {
         element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
       )
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.nat_eip_tags,
   )
 }
@@ -546,7 +546,7 @@ resource "aws_nat_gateway" "this" {
         element("${var.azs[local.env]}", var.single_nat_gateway ? 0 : count.index),
       )
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.nat_gateway_tags,
   )
 
@@ -609,7 +609,7 @@ resource "aws_customer_gateway" "this" {
     {
       Name = each.key
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.customer_gateway_tags,
   )
 }
@@ -629,7 +629,7 @@ resource "aws_vpn_gateway" "this" {
     {
       "Name" = "VGW-${local.env}-VPC"
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.vpn_gateway_tags,
   )
 }
@@ -682,7 +682,7 @@ resource "aws_default_vpc" "this" {
     {
       "Name" = format("%s", var.default_vpc_name)
     },
-    var.tags,
+    "${var.tags[local.env]}",
     var.default_vpc_tags,
   )
 }
