@@ -669,14 +669,24 @@ variable "vpc_flow_log_permissions_boundary" {
 
 variable "enable_dhcp_options" {
   description = "Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "dhcp_options_domain_name" {
   description = "Specifies DNS name for DHCP options set (requires enable_dhcp_options set to true)"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "dhcp_options_domain_name_servers" {
@@ -687,80 +697,145 @@ variable "dhcp_options_domain_name_servers" {
 
 variable "dhcp_options_ntp_servers" {
   description = "Specify a list of NTP servers for DHCP options set (requires enable_dhcp_options set to true)"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "dhcp_options_netbios_name_servers" {
   description = "Specify a list of netbios servers for DHCP options set (requires enable_dhcp_options set to true)"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "dhcp_options_netbios_node_type" {
   description = "Specify netbios node_type for DHCP options set (requires enable_dhcp_options set to true)"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "manage_default_vpc" {
   description = "Should be true to adopt and manage Default VPC"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_vpc_name" {
   description = "Name to be used on the Default VPC"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = "default"
+    UAT         = "default"
+    PROD        = "default"
+    PROD-SYDNEY = "default"
+  }
 }
 
 variable "default_vpc_enable_dns_support" {
   description = "Should be true to enable DNS support in the Default VPC"
-  type        = bool
-  default     = true
+  type        = map(bool)
+  default     = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "default_vpc_enable_dns_hostnames" {
   description = "Should be true to enable DNS hostnames in the Default VPC"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_vpc_enable_classiclink" {
   description = "Should be true to enable ClassicLink in the Default VPC"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_vpc_tags" {
   description = "Additional tags for the Default VPC"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "manage_default_network_acl" {
   description = "Should be true to adopt and manage Default Network ACL"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_network_acl_name" {
   description = "Name to be used on the Default Network ACL"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "default_network_acl_tags" {
   description = "Additional tags for the Default Network ACL"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "public_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for public subnets"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "private_dedicated_network_acl" {
@@ -813,7 +888,7 @@ variable "default_network_acl_egress" {
       to_port         = 0
       protocol        = "-1"
       ipv6_cidr_block = "::/0"
-    },
+    }
   ]
 }
 
