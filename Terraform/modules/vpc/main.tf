@@ -113,25 +113,25 @@ resource "aws_default_security_group" "this" {
 ################################################################################
 
 resource "aws_vpc_dhcp_options" "this" {
-  count = "${var.create_vpc[local.env]}" && var.enable_dhcp_options ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_dhcp_options[local.env]}" ? 1 : 0
 
-  domain_name          = var.dhcp_options_domain_name
+  domain_name          = "${var.dhcp_options_domain_name[local.env]}"
   domain_name_servers  = var.dhcp_options_domain_name_servers
-  ntp_servers          = var.dhcp_options_ntp_servers
-  netbios_name_servers = var.dhcp_options_netbios_name_servers
-  netbios_node_type    = var.dhcp_options_netbios_node_type
+  ntp_servers          = "${var.dhcp_options_ntp_servers[local.env]}"
+  netbios_name_servers = "${var.dhcp_options_netbios_name_servers[local.env]}"
+  netbios_node_type    = "${var.dhcp_options_netbios_node_type[local.env]}"
 
   tags = merge(
     {
       "Name" = format("%s", "${local.env}-VPC")
     },
     "${var.tags[local.env]}",
-    var.dhcp_options_tags,
+    "${var.dhcp_options_tags[local.env]}",
   )
 }
 
 resource "aws_vpc_dhcp_options_association" "this" {
-  count = "${var.create_vpc[local.env]}" && var.enable_dhcp_options ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_dhcp_options[local.env]}" ? 1 : 0
 
   vpc_id          = local.vpc_id
   dhcp_options_id = aws_vpc_dhcp_options.this[0].id
