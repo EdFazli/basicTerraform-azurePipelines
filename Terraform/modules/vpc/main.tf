@@ -280,7 +280,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch         = "${var.map_public_ip_on_launch[local.env]}"
   assign_ipv6_address_on_creation = "${var.public_subnet_assign_ipv6_address_on_creation[local.env]}" == null ? "${var.assign_ipv6_address_on_creation[local.env]}" : "${var.public_subnet_assign_ipv6_address_on_creation[local.env]}"
 
-  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length("${var.public_subnet_ipv6_prefixes[local.env]}") > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, lookup(var.public_subnet_ipv6_prefixes[local.env], count.index)) : null
+  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length("${var.public_subnet_ipv6_prefixes[local.env]}") > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, element(var.public_subnet_ipv6_prefixes[local.env], count.index)) : null
 
   tags = merge(
     {
