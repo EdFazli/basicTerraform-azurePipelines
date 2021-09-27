@@ -174,13 +174,13 @@ resource "aws_egress_only_internet_gateway" "this" {
 ################################################################################
 
 resource "aws_default_route_table" "default" {
-  count = "${var.create_vpc[local.env]}" && var.manage_default_route_table ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.manage_default_route_table[local.env]}" ? 1 : 0
 
   default_route_table_id = aws_vpc.this[0].default_route_table_id
-  propagating_vgws       = var.default_route_table_propagating_vgws
+  propagating_vgws       = "${var.default_route_table_propagating_vgws[local.env]}"
 
   dynamic "route" {
-    for_each = var.default_route_table_routes
+    for_each = "${var.default_route_table_routes[local.env]}"
     content {
       # One of the following destinations must be provided
       cidr_block      = route.value.cidr_block
@@ -201,7 +201,7 @@ resource "aws_default_route_table" "default" {
   tags = merge(
     { "Name" = "${local.env}-VPC" },
     "${var.tags[local.env]}",
-    var.default_route_table_tags,
+    "${var.default_route_table_tags[local.env]}",
   )
 }
 
