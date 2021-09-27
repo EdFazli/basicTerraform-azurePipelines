@@ -47,8 +47,13 @@ variable "cidr" {
 
 variable "enable_ipv6" {
   description = "Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block."
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false 
+  }
 }
 
 variable "private_subnet_ipv6_prefixes" {
@@ -75,20 +80,35 @@ variable "public_subnet_ipv6_prefixes" {
 
 variable "assign_ipv6_address_on_creation" {
   description = "Assign IPv6 address on subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false 
+  }
 }
 
 variable "private_subnet_assign_ipv6_address_on_creation" {
   description = "Assign IPv6 address on private subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
+  type        = map(bool)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null 
+  }
 }
 
 variable "public_subnet_assign_ipv6_address_on_creation" {
   description = "Assign IPv6 address on public subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
+  type        = map(bool)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null 
+  }
 }
 
 variable "secondary_cidr_blocks" {
@@ -104,8 +124,13 @@ variable "secondary_cidr_blocks" {
 
 variable "instance_tenancy" {
   description = "A tenancy option for instances launched into the VPC"
-  type        = string
-  default     = "default"
+  type        = map(string)
+  default     = {
+    SIT         = "default"
+    UAT         = "default"
+    PROD        = "default"
+    PROD-SYDNEY = "default"
+  }
 }
 
 variable "public_subnet_suffix" {
@@ -211,86 +236,176 @@ variable "azs" {
 
 variable "enable_dns_hostnames" {
   description = "Should be true to enable DNS hostnames in the VPC"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "enable_dns_support" {
   description = "Should be true to enable DNS support in the VPC"
-  type        = bool
-  default     = true
+  type        = map(bool)
+  default     = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "enable_classiclink" {
   description = "Should be true to enable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic."
-  type        = bool
-  default     = null
+  type        = map(bool)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null 
+  }
 }
 
 variable "enable_classiclink_dns_support" {
   description = "Should be true to enable ClassicLink DNS Support for the VPC. Only valid in regions and accounts that support EC2 Classic."
-  type        = bool
-  default     = null
+  type        = map(bool)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null 
+  }
 }
 
 variable "enable_nat_gateway" {
   description = "Should be true if you want to provision NAT Gateways for each of your private networks"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "single_nat_gateway" {
   description = "Should be true if you want to provision a single shared NAT Gateway across all of your private networks"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "one_nat_gateway_per_az" {
   description = "Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`."
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "reuse_nat_ips" {
   description = "Should be true if you don't want EIPs to be created for your NAT Gateways and will instead pass them in via the 'external_nat_ip_ids' variable"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "external_nat_ip_ids" {
   description = "List of EIP IDs to be assigned to the NAT Gateways (used in combination with reuse_nat_ips)"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "external_nat_ips" {
   description = "List of EIPs to be used for `nat_public_ips` output (used in combination with reuse_nat_ips and external_nat_ip_ids)"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "map_public_ip_on_launch" {
   description = "Should be false if you do not want to auto-assign public IP on launch"
-  type        = bool
-  default     = true
+  type        = map(bool)
+  default     = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "customer_gateways" {
   description = "Maps of Customer Gateway's attributes (BGP ASN and Gateway's Internet-routable external IP address)"
-  type        = map(map(any))
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {
+      "CGW-ASCENTIS-SG-DC" = {
+        bgp_asn = 65000
+        ip_address = "61.14.147.113"
+      }
+    }
+    UAT         = {
+      "CGW-ASCENTIS-SG-DC" = {
+        bgp_asn = 65000
+        ip_address = "61.14.147.113"
+      }
+    }
+    PROD        = {
+      "CGW-ASCENTIS-SG-DC" = {
+        bgp_asn = 65000
+        ip_address = "61.14.147.113"
+      }
+    }
+    PROD-SYDNEY = {
+      "CGW-ASCENTIS-SG-DC" = {
+        bgp_asn = 65000
+        ip_address = "61.14.147.113"
+      }
+    }
+  }
 }
 
 variable "enable_vpn_gateway" {
   description = "Should be true if you want to create a new VPN Gateway resource and attach it to the VPC"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "vpn_gateway_id" {
   description = "ID of VPN Gateway to attach to the VPC"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "amazon_side_asn" {
@@ -301,62 +416,101 @@ variable "amazon_side_asn" {
 
 variable "vpn_gateway_az" {
   description = "The Availability Zone for the VPN Gateway"
-  type        = string
-  default     = null
-}
-
-variable "propagate_intra_route_tables_vgw" {
-  description = "Should be true if you want route table propagation"
-  type        = bool
-  default     = false
+  type        = map(string)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "propagate_private_route_tables_vgw" {
   description = "Should be true if you want route table propagation"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "propagate_public_route_tables_vgw" {
   description = "Should be true if you want route table propagation"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "manage_default_route_table" {
   description = "Should be true to manage default route table"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_route_table_propagating_vgws" {
   description = "List of virtual gateways for propagation"
-  type        = list(string)
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "default_route_table_routes" {
   description = "Configuration block of routes. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table#route"
-  type        = list(map(string))
-  default     = []
+  type        = map(any)
+  default     = {
+    SIT         = []
+    UAT         = []
+    PROD        = []
+    PROD-SYDNEY = []
+  }
 }
 
 variable "default_route_table_tags" {
   description = "Additional tags for the default route table"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "tags" {
   description = "A map of tags to add to all resources"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "vpc_tags" {
   description = "Additional tags for the VPC"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "igw_tags" {
