@@ -65,12 +65,12 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
 }
 
 resource "aws_default_security_group" "this" {
-  count = "${var.create_vpc[local.env]}" && var.manage_default_security_group ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.manage_default_security_group[local.env]}" ? 1 : 0
 
   vpc_id = aws_vpc.this[0].id
 
   dynamic "ingress" {
-    for_each = var.default_security_group_ingress
+    for_each = "${var.default_security_group_ingress[local.env]}"
     content {
       self             = lookup(ingress.value, "self", null)
       cidr_blocks      = compact(split(",", lookup(ingress.value, "cidr_blocks", "")))
@@ -85,7 +85,7 @@ resource "aws_default_security_group" "this" {
   }
 
   dynamic "egress" {
-    for_each = var.default_security_group_egress
+    for_each = "${var.default_security_group_egress[local.env]}"
     content {
       self             = lookup(egress.value, "self", null)
       cidr_blocks      = compact(split(",", lookup(egress.value, "cidr_blocks", "")))
@@ -101,10 +101,10 @@ resource "aws_default_security_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.default_security_group_name)
+      "Name" = format("%s", "${var.default_security_group_name[local.env]}")
     },
     "${var.tags[local.env]}",
-    var.default_security_group_tags,
+    "${var.default_security_group_tags[local.env]}",
   )
 }
 
