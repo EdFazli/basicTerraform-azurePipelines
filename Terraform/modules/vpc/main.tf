@@ -328,7 +328,7 @@ resource "aws_subnet" "private" {
 ################################################################################
 
 resource "aws_default_network_acl" "this" {
-  count = "${var.create_vpc[local.env]}" && var.manage_default_network_acl ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.manage_default_network_acl[local.env]}" ? 1 : 0
 
   default_network_acl_id = element(concat(aws_vpc.this.*.default_network_acl_id, [""]), 0)
 
@@ -346,7 +346,7 @@ resource "aws_default_network_acl" "this" {
   )
 
   dynamic "ingress" {
-    for_each = var.default_network_acl_ingress
+    for_each = "${var.default_network_acl_ingress[local.env]}"
     content {
       action          = ingress.value.action
       cidr_block      = lookup(ingress.value, "cidr_block", null)
@@ -360,7 +360,7 @@ resource "aws_default_network_acl" "this" {
     }
   }
   dynamic "egress" {
-    for_each = var.default_network_acl_egress
+    for_each = "${var.default_network_acl_egress[local.env]}"
     content {
       action          = egress.value.action
       cidr_block      = lookup(egress.value, "cidr_block", null)
@@ -379,7 +379,7 @@ resource "aws_default_network_acl" "this" {
       "Name" = format("%s", var.default_network_acl_name)
     },
     "${var.tags[local.env]}",
-    var.default_network_acl_tags,
+    "${var.default_network_acl_tags[local.env]}",
   )
 }
 
