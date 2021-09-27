@@ -1013,190 +1013,427 @@ variable "default_network_acl_egress" {
 
 variable "public_inbound_acl_rules" {
   description = "Public subnets inbound network ACLs"
-  type        = list(map(string))
+  type        = map(any)
 
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
+  default = {
+    SIT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    UAT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD-SYDNEY = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+
+  }
 }
 
 variable "public_outbound_acl_rules" {
   description = "Public subnets outbound network ACLs"
-  type        = list(map(string))
+  type        = map(any)
 
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
+  default = {
+    SIT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    UAT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD-SYDNEY = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+
+  }
 }
 
 variable "private_inbound_acl_rules" {
   description = "Private subnets inbound network ACLs"
-  type        = list(map(string))
+  type        = map(any)
 
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
+  default = {
+    SIT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    UAT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD-SYDNEY = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+
+  }
 }
 
 variable "private_outbound_acl_rules" {
   description = "Private subnets outbound network ACLs"
-  type        = list(map(string))
+  type        = map(any)
 
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
+  default = {
+    SIT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    UAT = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    PROD-SYDNEY = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+
+  }
 }
 
 variable "manage_default_security_group" {
   description = "Should be true to adopt and manage default security group"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_security_group_name" {
   description = "Name to be used on the default security group"
-  type        = string
-  default     = "default"
+  type        = map(string)
+  default     = {
+    SIT         = "default"
+    UAT         = "default"
+    PROD        = "default"
+    PROD-SYDNEY = "default"
+  }
 }
 
 variable "default_security_group_ingress" {
   description = "List of maps of ingress rules to set on the default security group"
-  type        = list(map(string))
-  default     = null
+  type        = map(any)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "enable_flow_log" {
   description = "Whether or not to enable VPC Flow Logs"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "default_security_group_egress" {
   description = "List of maps of egress rules to set on the default security group"
-  type        = list(map(string))
-  default     = null
+  type        = map(any)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "default_security_group_tags" {
   description = "Additional tags for the default security group"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "create_flow_log_cloudwatch_log_group" {
   description = "Whether to create CloudWatch log group for VPC Flow Logs"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "create_flow_log_cloudwatch_iam_role" {
   description = "Whether to create IAM role for VPC Flow Logs"
-  type        = bool
-  default     = false
+  type        = map(bool)
+  default     = {
+    SIT         = false
+    UAT         = false
+    PROD        = false
+    PROD-SYDNEY = false
+  }
 }
 
 variable "flow_log_traffic_type" {
   description = "The type of traffic to capture. Valid values: ACCEPT, REJECT, ALL."
-  type        = string
-  default     = "ALL"
+  type        = map(string)
+  default     = {
+    SIT         = "ALL"
+    UAT         = "ALL"
+    PROD        = "ALL"
+    PROD-SYDNEY = "ALL"
+  }
 }
 
 variable "flow_log_destination_type" {
   description = "Type of flow log destination. Can be s3 or cloud-watch-logs."
-  type        = string
-  default     = "cloud-watch-logs"
+  type        = map(string)
+  default     = {
+    SIT         = "cloud-watch-logs"
+    UAT         = "cloud-watch-logs"
+    PROD        = "cloud-watch-logs"
+    PROD-SYDNEY = "cloud-watch-logs"
+  }
 }
 
 variable "flow_log_log_format" {
   description = "The fields to include in the flow log record, in the order in which they should appear."
-  type        = string
-  default     = null
+  type        = map(string)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "flow_log_destination_arn" {
   description = "The ARN of the CloudWatch log group or S3 bucket where VPC Flow Logs will be pushed. If this ARN is a S3 bucket the appropriate permissions need to be set on that bucket's policy. When create_flow_log_cloudwatch_log_group is set to false this argument must be provided."
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "flow_log_cloudwatch_iam_role_arn" {
   description = "The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group. When flow_log_destination_arn is set to ARN of Cloudwatch Logs, this argument needs to be provided."
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = ""
+    UAT         = ""
+    PROD        = ""
+    PROD-SYDNEY = ""
+  }
 }
 
 variable "flow_log_cloudwatch_log_group_name_prefix" {
   description = "Specifies the name prefix of CloudWatch Log Group for VPC flow logs."
-  type        = string
-  default     = "/aws/vpc-flow-log/"
+  type        = map(string)
+  default     = {
+    SIT         = "/aws/vpc-flow-log/"
+    UAT         = "/aws/vpc-flow-log/"
+    PROD        = "/aws/vpc-flow-log/"
+    PROD-SYDNEY = "/aws/vpc-flow-log/"
+  }
 }
 
 variable "flow_log_cloudwatch_log_group_retention_in_days" {
   description = "Specifies the number of days you want to retain log events in the specified log group for VPC flow logs."
-  type        = number
-  default     = null
+  type        = map(number)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "flow_log_cloudwatch_log_group_kms_key_id" {
   description = "The ARN of the KMS Key to use when encrypting log data for VPC flow logs."
-  type        = string
-  default     = null
+  type        = map(string)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "flow_log_max_aggregation_interval" {
   description = "The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds or `600` seconds."
-  type        = number
-  default     = 600
+  type        = map(number)
+  default     = {
+    SIT         = 600
+    UAT         = 600
+    PROD        = 600
+    PROD-SYDNEY = 600
+  }
 }
 
 variable "create_igw" {
   description = "Controls if an Internet Gateway is created for public subnets and the related routes that connect them."
-  type        = bool
-  default     = true
+  type        = map(bool)
+  default     = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "create_egress_only_igw" {
   description = "Controls if an Egress Only Internet Gateway is created and its related routes."
-  type        = bool
-  default     = true
+  type        = map(bool)
+  default     = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "prevent_destroy_vpc" {
     description = "Controls the prevent_destroy lifecycle for VPC"
-    type = bool
-    default = true
+    type = map(bool)
+    default = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
 
 variable "create_before_destroy_vpc" {
     description = "Controls the create_before__destroy lifecycle for VPC"
-    type = bool
-    default = true
+    type = map(bool)
+    default = {
+    SIT         = true
+    UAT         = true
+    PROD        = true
+    PROD-SYDNEY = true
+  }
 }
