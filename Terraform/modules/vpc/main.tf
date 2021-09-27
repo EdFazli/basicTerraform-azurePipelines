@@ -277,10 +277,10 @@ resource "aws_subnet" "public" {
   cidr_block                      = element(concat("${var.public_subnets[local.env]}", [""]), count.index)
   availability_zone               = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) > 0 ? element("${var.azs[local.env]}", count.index) : null
   availability_zone_id            = length(regexall("^[a-z]{2}-", element("${var.azs[local.env]}", count.index))) == 0 ? element("${var.azs[local.env]}", count.index) : null
-  map_public_ip_on_launch         = var.map_public_ip_on_launch
-  assign_ipv6_address_on_creation = var.public_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.public_subnet_assign_ipv6_address_on_creation
+  map_public_ip_on_launch         = "${var.map_public_ip_on_launch[local.env]}"
+  assign_ipv6_address_on_creation = "${var.public_subnet_assign_ipv6_address_on_creation[local.env]}" == null ? "${var.assign_ipv6_address_on_creation[local.env]}" : "${var.public_subnet_assign_ipv6_address_on_creation[local.env]}"
 
-  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length(var.public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.public_subnet_ipv6_prefixes[count.index]) : null
+  ipv6_cidr_block = "${var.enable_ipv6[local.env]}" && length("${var.public_subnet_ipv6_prefixes[local.env]}") > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, lookup(var.public_subnet_ipv6_prefixes[local.env], count.index)) : null
 
   tags = merge(
     {
@@ -291,7 +291,7 @@ resource "aws_subnet" "public" {
       )
     },
     "${var.tags[local.env]}",
-    var.public_subnet_tags,
+    "${var.public_subnet_tags[local.env]}",
   )
 }
 
