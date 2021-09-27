@@ -271,7 +271,7 @@ resource "aws_route_table" "private" {
 ################################################################################
 
 resource "aws_subnet" "public" {
-  count = "${var.create_vpc[local.env]}" && length("${var.public_subnets[local.env]}") > 0 && (false == var.one_nat_gateway_per_az || length("${var.public_subnets[local.env]}") >= length("${var.azs[local.env]}")) ? length("${var.public_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && length("${var.public_subnets[local.env]}") > 0 && (false == "${var.one_nat_gateway_per_az[local.env]}" || length("${var.public_subnets[local.env]}") >= length("${var.azs[local.env]}")) ? length("${var.public_subnets[local.env]}") : 0
 
   vpc_id                          = local.vpc_id
   cidr_block                      = element(concat("${var.public_subnets[local.env]}", [""]), count.index)
