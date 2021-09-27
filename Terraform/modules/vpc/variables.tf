@@ -515,86 +515,156 @@ variable "vpc_tags" {
 
 variable "igw_tags" {
   description = "Additional tags for the internet gateway"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "public_subnet_tags" {
   description = "Additional tags for the public subnets"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "private_subnet_tags" {
   description = "Additional tags for the private subnets"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "public_route_table_tags" {
   description = "Additional tags for the public route tables"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "private_route_table_tags" {
   description = "Additional tags for the private route tables"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "public_acl_tags" {
   description = "Additional tags for the public subnets network ACL"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "private_acl_tags" {
   description = "Additional tags for the private subnets network ACL"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "dhcp_options_tags" {
   description = "Additional tags for the DHCP option set (requires enable_dhcp_options set to true)"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "nat_gateway_tags" {
   description = "Additional tags for the NAT gateways"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "nat_eip_tags" {
   description = "Additional tags for the NAT EIP"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "customer_gateway_tags" {
   description = "Additional tags for the Customer Gateway"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "vpn_gateway_tags" {
   description = "Additional tags for the VPN gateway"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "vpc_flow_log_tags" {
   description = "Additional tags for the VPC Flow Logs"
-  type        = map(string)
-  default     = {}
+  type        = map(any)
+  default     = {
+    SIT         = {}
+    UAT         = {}
+    PROD        = {}
+    PROD-SYDNEY = {}
+  }
 }
 
 variable "vpc_flow_log_permissions_boundary" {
   description = "The ARN of the Permissions Boundary for the VPC Flow Log IAM Role"
-  type        = string
-  default     = null
+  type        = map(string)
+  default     = {
+    SIT         = null
+    UAT         = null
+    PROD        = null
+    PROD-SYDNEY = null
+  }
 }
 
 variable "enable_dhcp_options" {
