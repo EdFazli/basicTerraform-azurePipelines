@@ -292,7 +292,7 @@ output "vpc_flow_log_destination_arn" {
 
 output "vpc_flow_log_destination_type" {
   description = "The type of the destination for VPC Flow Logs"
-  value       = var.flow_log_destination_type
+  value       = "${var.flow_log_destination_type[local.env]}"
 }
 
 output "vpc_flow_log_cloudwatch_iam_role_arn" {
@@ -303,7 +303,7 @@ output "vpc_flow_log_cloudwatch_iam_role_arn" {
 # Static values (arguments)
 output "azs" {
   description = "A list of availability zones specified as argument to this module"
-  value       = var.azs
+  value       = "${var.azs[local.env]}"
 }
 
 output "name" {
