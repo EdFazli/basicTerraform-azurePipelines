@@ -257,7 +257,7 @@ resource "aws_route_table" "private" {
     {
       "Name" = var.single_nat_gateway ? "${local.env}-VPC-${var.private_subnet_suffix}" : format(
         "%s-${var.private_subnet_suffix}-%s",
-        var.name,
+        "${var.name[local.env]}",
         element("${var.azs[local.env]}", count.index),
       )
     },

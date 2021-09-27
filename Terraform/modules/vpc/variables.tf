@@ -25,8 +25,13 @@ variable "create_vpc" {
 
 variable "name" {
   description = "Name to be used on all the resources as identifier"
-  type        = string
-  default     = ""
+  type        = map(string)
+  default     = {
+    SIT         = "SIT-VPC"
+    UAT         = "UAT-VPC"
+    PROD        = "PROD-VPC"
+    PROD-SYDNEY = "PROD-SYDNEY-VPC"
+  }
 }
 
 variable "cidr" {
