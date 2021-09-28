@@ -80,7 +80,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -98,7 +98,7 @@ stages:
             searchFolder: '$(System.DefaultWorkingDirectory)'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
-            testRunTitle: Checkov SIT workspace plan scan
+            testRunTitle: Checkov SIT workspace destroy scan
             failTaskOnFailedTests: false
             publishRunAttachments: true
           displayName: Publish Test Result
@@ -135,9 +135,9 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+            script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
-          displayName: "Terraform apply"
+          displayName: "Terraform destroy"
   - stage: UAT
     displayName: UAT
     jobs:
@@ -166,7 +166,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -184,7 +184,7 @@ stages:
             searchFolder: '$(System.DefaultWorkingDirectory)'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
-            testRunTitle: Checkov UAT workspace plan scan
+            testRunTitle: Checkov UAT workspace destroy scan
             failTaskOnFailedTests: false
             publishRunAttachments: true
           displayName: Publish Test Result
@@ -221,9 +221,9 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
-            displayName: "Terraform apply"
+            displayName: "Terraform destroy"
   - stage: PROD
     displayName: PROD
     jobs:
@@ -252,7 +252,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -270,7 +270,7 @@ stages:
             searchFolder: '$(System.DefaultWorkingDirectory)'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
-            testRunTitle: Checkov PROD workspace plan scan
+            testRunTitle: Checkov PROD workspace destroy scan
             failTaskOnFailedTests: false
             publishRunAttachments: true
           displayName: Publish Test Result
@@ -307,9 +307,9 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
-            displayName: "Terraform apply"
+            displayName: "Terraform destroy"
   - stage: PROD-SYDNEY
     displayName: PROD-SYDNEY
     jobs:
@@ -338,7 +338,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform plan -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+              script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform plan"
           - task: Bash@3
@@ -356,7 +356,7 @@ stages:
               searchFolder: '$(System.DefaultWorkingDirectory)'
               testResultsFiles: '**/*Checkov-Plan-Report.xml'
               mergeTestResults: false
-              testRunTitle: Checkov PROD-SYDNEY workspace plan scan
+              testRunTitle: Checkov PROD-SYDNEY workspace destroy scan
               failTaskOnFailedTests: false
               publishRunAttachments: true
             displayName: Publish Test Result
@@ -393,6 +393,6 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
-            displayName: "Terraform apply"
+            displayName: "Terraform destroy"
