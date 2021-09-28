@@ -672,17 +672,17 @@ resource "aws_vpn_gateway_route_propagation" "private" {
 ################################################################################
 
 resource "aws_default_vpc" "this" {
-  count = var.manage_default_vpc ? 1 : 0
+  count = "${var.manage_default_vpc[local.env]}" ? 1 : 0
 
-  enable_dns_support   = var.default_vpc_enable_dns_support
-  enable_dns_hostnames = var.default_vpc_enable_dns_hostnames
-  enable_classiclink   = var.default_vpc_enable_classiclink
+  enable_dns_support   = "${var.default_vpc_enable_dns_support[local.env]}"
+  enable_dns_hostnames = "${var.default_vpc_enable_dns_hostnames[local.env]}"
+  enable_classiclink   = "${var.default_vpc_enable_classiclink[local.env]}"
 
   tags = merge(
     {
-      "Name" = format("%s", var.default_vpc_name)
+      "Name" = format("%s", "${var.default_vpc_name[local.env]}")
     },
     "${var.tags[local.env]}",
-    var.default_vpc_tags,
+    "${var.default_vpc_tags[local.env]}",
   )
 }
