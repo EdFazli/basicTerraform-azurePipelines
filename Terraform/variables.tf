@@ -6,22 +6,22 @@ locals {
 }
 variable "region" {
   description = "Which region you want to provision your resources?"
-  type = map(any)
-  default = {
-    "SIT" = "ap-southeast-1"
-    "UAT" = "ap-southeast-1"
-    "PROD" = "ap-southeast-1"
-    "PROD-SYDNEY" = "ap-southeast-2"
+  type        = map(any)
+  default     = {
+    SIT         = "ap-southeast-1"
+    UAT         = "ap-southeast-1"
+    PROD        = "ap-southeast-1"
+    PROD-SYDNEY = "ap-southeast-2"
   }
 }
 
 variable "provider_env_roles" {
-  type = map(any)
-  default = {
-    "SIT"  = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
-    "UAT" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
-    "PROD" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
-    "PROD-SYDNEY" = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+  type        = map(any)
+  default     = {
+    SIT         = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
+    UAT         = "arn:aws:iam::699388596268:role/OrganizationAccountAccessRole"
+    PROD        = "arn:aws:iam::649377927085:role/OrganizationAccountAccessRole"
+    PROD-SYDNEY = "arn:aws:iam::649377927085:role/OrganizationAccountAccessRole"
   }
 }
 
