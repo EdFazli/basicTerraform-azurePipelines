@@ -599,7 +599,7 @@ resource "aws_route_table_association" "public" {
 ################################################################################
 
 resource "aws_customer_gateway" "this" {
-  for_each = var.customer_gateways
+  for_each = "${var.customer_gateways[local.env]}"
 
   bgp_asn    = each.value["bgp_asn"]
   ip_address = each.value["ip_address"]
@@ -610,7 +610,7 @@ resource "aws_customer_gateway" "this" {
       Name = each.key
     },
     "${var.tags[local.env]}",
-    var.customer_gateway_tags,
+    "${var.customer_gateway_tags[local.env]}",
   )
 }
 
