@@ -504,12 +504,12 @@ resource "aws_network_acl_rule" "private_outbound" {
 locals {
   nat_gateway_ips = split(
     ",",
-    var.reuse_nat_ips ? join(",", var.external_nat_ip_ids) : join(",", aws_eip.nat.*.id),
+    "${var.reuse_nat_ips[local.env]}" ? join(",", "${var.external_nat_ip_ids[local.env]}") : join(",", aws_eip.nat.*.id),
   )
 }
 
 resource "aws_eip" "nat" {
-  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway && false == var.reuse_nat_ips ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_nat_gateway[local.env]}" && false == "${var.reuse_nat_ips[local.env]}" ? local.nat_gateway_count : 0
 
   vpc = true
 
@@ -522,12 +522,12 @@ resource "aws_eip" "nat" {
       )
     },
     "${var.tags[local.env]}",
-    var.nat_eip_tags,
+    "${var.nat_eip_tags[local.env]}",
   )
 }
 
 resource "aws_nat_gateway" "this" {
-  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_nat_gateway[local.env]}" ? local.nat_gateway_count : 0
 
   allocation_id = element(
     local.nat_gateway_ips,
@@ -547,14 +547,14 @@ resource "aws_nat_gateway" "this" {
       )
     },
     "${var.tags[local.env]}",
-    var.nat_gateway_tags,
+    "${var.nat_gateway_tags[local.env]}",
   )
 
   depends_on = [aws_internet_gateway.this]
 }
 
 resource "aws_route" "private_nat_gateway" {
-  count = "${var.create_vpc[local.env]}" && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_nat_gateway[local.env]}" ? local.nat_gateway_count : 0
 
   route_table_id         = element(aws_route_table.private.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
@@ -566,7 +566,7 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 resource "aws_route" "private_ipv6_egress" {
-  count = "${var.create_vpc[local.env]}" && var.create_egress_only_igw && "${var.enable_ipv6[local.env]}" ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && "${var.create_egress_only_igw[local.env]}" && "${var.enable_ipv6[local.env]}" ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id              = element(aws_route_table.private.*.id, count.index)
   destination_ipv6_cidr_block = "::/0"
