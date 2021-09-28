@@ -2,12 +2,7 @@ variables:
   - group: COMMON Variables
   - group: DESTROY! Variables
  
-trigger:
-  branches:
-    include:
-    - main
-    exclude:
-      - README.md
+trigger: none
   
 stages:
   - stage: Validate
