@@ -310,8 +310,8 @@ stages:
               script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform destroy"
-  - stage: PROD-SYDNEY
-    displayName: PROD-SYDNEY
+  - stage: PROD_SYDNEY
+    displayName: PROD_SYDNEY
     jobs:
       - job: plan
         pool:
@@ -332,9 +332,9 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform workspace select PROD-SYDNEY -no-color'
+              script: 'terraform workspace select PROD_SYDNEY -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
-            displayName: "Terraform workspace: PROD-SYDNEY"
+            displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
@@ -356,7 +356,7 @@ stages:
               searchFolder: '$(System.DefaultWorkingDirectory)'
               testResultsFiles: '**/*Checkov-Plan-Report.xml'
               mergeTestResults: false
-              testRunTitle: Checkov PROD-SYDNEY workspace destroy scan
+              testRunTitle: Checkov PROD_SYDNEY workspace destroy scan
               failTaskOnFailedTests: false
               publishRunAttachments: true
             displayName: Publish Test Result
@@ -387,9 +387,9 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform workspace select PROD-SYDNEY -no-color'
+              script: 'terraform workspace select PROD_SYDNEY -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
-            displayName: "Terraform workspace: PROD-SYDNEY"
+            displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'

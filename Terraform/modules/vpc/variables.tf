@@ -8,7 +8,7 @@
 #     SIT         = "ap-southeast-1"
 #     UAT         = "ap-southeast-1"
 #     PROD        = "ap-southeast-1"
-#     PROD-SYDNEY = "ap-southeast-2"
+#     PROD_SYDNEY = "ap-southeast-2"
 #   }
 # }
 
@@ -19,7 +19,7 @@ variable "create_vpc" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true  
+    PROD_SYDNEY = true  
   }
 }
 
@@ -30,7 +30,7 @@ variable "name" {
     SIT         = "SIT-VPC"
     UAT         = "UAT-VPC"
     PROD        = "PROD-VPC"
-    PROD-SYDNEY = "PROD-SYDNEY-VPC"
+    PROD_SYDNEY = "PROD-SYDNEY-VPC"
   }
 }
 
@@ -41,7 +41,7 @@ variable "cidr" {
     SIT         = "10.210.0.0/16"
     UAT         = "10.220.0.0/16"
     PROD        = "10.101.0.0/16"
-    PROD-SYDNEY = "10.110.0.0/16"
+    PROD_SYDNEY = "10.110.0.0/16"
   }
 }
 
@@ -52,7 +52,7 @@ variable "enable_ipv6" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false 
+    PROD_SYDNEY = false 
   }
 }
 
@@ -63,7 +63,7 @@ variable "private_subnet_ipv6_prefixes" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []  
+    PROD_SYDNEY = []  
   }
 }
 
@@ -74,7 +74,7 @@ variable "public_subnet_ipv6_prefixes" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []  
+    PROD_SYDNEY = []  
   }
 }
 
@@ -85,7 +85,7 @@ variable "assign_ipv6_address_on_creation" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false 
+    PROD_SYDNEY = false 
   }
 }
 
@@ -96,7 +96,7 @@ variable "private_subnet_assign_ipv6_address_on_creation" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null 
+    PROD_SYDNEY = null 
   }
 }
 
@@ -107,7 +107,7 @@ variable "public_subnet_assign_ipv6_address_on_creation" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null 
+    PROD_SYDNEY = null 
   }
 }
 
@@ -118,7 +118,7 @@ variable "secondary_cidr_blocks" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []  
+    PROD_SYDNEY = []  
   }
 }
 
@@ -129,7 +129,7 @@ variable "instance_tenancy" {
     SIT         = "default"
     UAT         = "default"
     PROD        = "default"
-    PROD-SYDNEY = "default"
+    PROD_SYDNEY = "default"
   }
 }
 
@@ -146,7 +146,7 @@ variable "public_subnets_name" {
     SIT         = ["GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-SFTP", "GATEWAY-SFTP", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
     UAT         = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY"]
     PROD        = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW", "GATEWAY-REVERSEPROXY", "GATEWAY-REVERSEPROXY", "OTHERS-ALB", "OTHERS-ALB"]
-    PROD-SYDNEY = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW"]
+    PROD_SYDNEY = ["IEGRESS-NLB", "IEGRESS-NLB", "GATEWAY-NGW", "GATEWAY-NGW"]
   }
 }
 
@@ -157,7 +157,7 @@ variable "public_subnets" {
     SIT         = ["10.210.0.0/25", "10.210.0.128/25", "10.210.1.0/25", "10.210.1.128/25", "10.210.2.0/25", "10.210.2.128/25"]
     UAT         = ["10.220.0.0/25", "10.220.0.128/25", "10.220.16.0/25", "10.220.16.128/25", "10.220.18.0/25", "10.220.18.128/25"]
     PROD        = ["10.101.0.0/25", "10.101.0.128/25", "10.101.16.0/25", "10.101.16.128/25", "10.101.18.0/25", "10.101.18.128/25", "10.101.128.0/25", "10.101.128.128/25",]
-    PROD-SYDNEY = ["10.110.0.0/25", "10.110.0.128/25", "10.110.16.0/25", "10.110.16.128/25"]
+    PROD_SYDNEY = ["10.110.0.0/25", "10.110.0.128/25", "10.110.16.0/25", "10.110.16.128/25"]
   }
 }
 
@@ -186,7 +186,7 @@ variable "private_subnets_name" {
       "GATEWAY-SFTP", "GATEWAY-SFTP",
       "OTHERS-WEB", "OTHERS-WEB", "OTHERS-DB", "OTHERS-DB",
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       "IEGRESS-NGFW", "IGRESS-NGFW",
       "GATEWAY-SFTP", "GATEWAY-SFTP",
       "CRM-ALB", "CRM-ALB", "CRM-WEB", "CRM-WEB", "CRM-API", "CRM-API", "CRM-STORAGE", "CRM-STORAGE", "CRM-REDIS", "CRM-REDIS", "CRM-DB", "CRM-DB",
@@ -214,7 +214,7 @@ variable "private_subnets" {
       "10.101.17.0/25", "10.101.17.128/25",
       "10.101.129.0/25", "10.101.129.128/25", "10.101.143.0/25", "10.101.143.128/25",
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       "10.110.1.0/25", "10.110.1.128/25",
       "10.110.17.0/25", "10.110.17.128/25",
       "10.110.48.0/25", "10.110.48.128/25", "10.110.49.0/25", "10.110.49.128/25", "10.110.49.0/25", "10.110.49.128/25", "10.110.50.0/25", "10.110.50.128/25", "10.110.61.0/25", "10.110.61.128/25", "10.110.62.0/25", "10.110.62.128/25", "10.110.63.0/25", "10.110.63.128/25",
@@ -230,7 +230,7 @@ variable "azs" {
     SIT         = ["ap-southeast-1a", "ap-southeast-1b"]
     UAT         = ["ap-southeast-1a", "ap-southeast-1b"]
     PROD        = ["ap-southeast-1a", "ap-southeast-1b"]
-    PROD-SYDNEY = ["ap-southeast-2a", "ap-southeast-2b"]
+    PROD_SYDNEY = ["ap-southeast-2a", "ap-southeast-2b"]
   }
 }
 
@@ -241,7 +241,7 @@ variable "enable_dns_hostnames" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -252,7 +252,7 @@ variable "enable_dns_support" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -263,7 +263,7 @@ variable "enable_classiclink" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null 
+    PROD_SYDNEY = null 
   }
 }
 
@@ -274,7 +274,7 @@ variable "enable_classiclink_dns_support" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null 
+    PROD_SYDNEY = null 
   }
 }
 
@@ -285,7 +285,7 @@ variable "enable_nat_gateway" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -296,7 +296,7 @@ variable "single_nat_gateway" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -307,7 +307,7 @@ variable "one_nat_gateway_per_az" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -318,7 +318,7 @@ variable "reuse_nat_ips" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -329,7 +329,7 @@ variable "external_nat_ip_ids" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -340,7 +340,7 @@ variable "external_nat_ips" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -351,7 +351,7 @@ variable "map_public_ip_on_launch" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -377,7 +377,7 @@ variable "customer_gateways" {
         ip_address = "61.14.147.113"
       }
     }
-    PROD-SYDNEY = {
+    PROD_SYDNEY = {
       "CGW-ASCENTIS-SG-DC" = {
         bgp_asn = 65000
         ip_address = "61.14.147.113"
@@ -393,7 +393,7 @@ variable "enable_vpn_gateway" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -404,7 +404,7 @@ variable "vpn_gateway_id" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -421,7 +421,7 @@ variable "vpn_gateway_az" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -432,7 +432,7 @@ variable "propagate_private_route_tables_vgw" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -443,7 +443,7 @@ variable "propagate_public_route_tables_vgw" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -454,7 +454,7 @@ variable "manage_default_route_table" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -465,7 +465,7 @@ variable "default_route_table_propagating_vgws" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -476,7 +476,7 @@ variable "default_route_table_routes" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -487,7 +487,7 @@ variable "default_route_table_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -498,7 +498,7 @@ variable "tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -509,7 +509,7 @@ variable "vpc_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -520,7 +520,7 @@ variable "igw_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -531,7 +531,7 @@ variable "public_subnet_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -542,7 +542,7 @@ variable "private_subnet_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -553,7 +553,7 @@ variable "public_route_table_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -564,7 +564,7 @@ variable "private_route_table_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -575,7 +575,7 @@ variable "public_acl_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -586,7 +586,7 @@ variable "private_acl_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -597,7 +597,7 @@ variable "dhcp_options_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -608,7 +608,7 @@ variable "nat_gateway_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -619,7 +619,7 @@ variable "nat_eip_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -630,7 +630,7 @@ variable "customer_gateway_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -641,7 +641,7 @@ variable "vpn_gateway_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -652,7 +652,7 @@ variable "vpc_flow_log_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -663,7 +663,7 @@ variable "vpc_flow_log_permissions_boundary" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -674,7 +674,7 @@ variable "enable_dhcp_options" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -685,7 +685,7 @@ variable "dhcp_options_domain_name" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -702,7 +702,7 @@ variable "dhcp_options_ntp_servers" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -713,7 +713,7 @@ variable "dhcp_options_netbios_name_servers" {
     SIT         = []
     UAT         = []
     PROD        = []
-    PROD-SYDNEY = []
+    PROD_SYDNEY = []
   }
 }
 
@@ -724,7 +724,7 @@ variable "dhcp_options_netbios_node_type" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -735,7 +735,7 @@ variable "manage_default_vpc" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -746,7 +746,7 @@ variable "default_vpc_name" {
     SIT         = "default"
     UAT         = "default"
     PROD        = "default"
-    PROD-SYDNEY = "default"
+    PROD_SYDNEY = "default"
   }
 }
 
@@ -757,7 +757,7 @@ variable "default_vpc_enable_dns_support" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -768,7 +768,7 @@ variable "default_vpc_enable_dns_hostnames" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -779,7 +779,7 @@ variable "default_vpc_enable_classiclink" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -790,7 +790,7 @@ variable "default_vpc_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -801,7 +801,7 @@ variable "manage_default_network_acl" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -812,7 +812,7 @@ variable "default_network_acl_name" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -823,7 +823,7 @@ variable "default_network_acl_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -834,7 +834,7 @@ variable "public_dedicated_network_acl" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -845,7 +845,7 @@ variable "private_dedicated_network_acl" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -908,7 +908,7 @@ variable "default_network_acl_ingress" {
       ipv6_cidr_block = "::/0"
       }
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
       rule_no    = 100
       action     = "allow"
@@ -989,7 +989,7 @@ variable "default_network_acl_egress" {
         ipv6_cidr_block = "::/0"
       }
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
         rule_no    = 100
         action     = "allow"
@@ -1046,7 +1046,7 @@ variable "public_inbound_acl_rules" {
         cidr_block  = "0.0.0.0/0"
       },
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
         rule_number = 100
         rule_action = "allow"
@@ -1095,7 +1095,7 @@ variable "public_outbound_acl_rules" {
         cidr_block  = "0.0.0.0/0"
       },
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
         rule_number = 100
         rule_action = "allow"
@@ -1144,7 +1144,7 @@ variable "private_inbound_acl_rules" {
         cidr_block  = "0.0.0.0/0"
       },
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
         rule_number = 100
         rule_action = "allow"
@@ -1193,7 +1193,7 @@ variable "private_outbound_acl_rules" {
         cidr_block  = "0.0.0.0/0"
       },
     ]
-    PROD-SYDNEY = [
+    PROD_SYDNEY = [
       {
         rule_number = 100
         rule_action = "allow"
@@ -1214,7 +1214,7 @@ variable "manage_default_security_group" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -1225,7 +1225,7 @@ variable "default_security_group_name" {
     SIT         = "default"
     UAT         = "default"
     PROD        = "default"
-    PROD-SYDNEY = "default"
+    PROD_SYDNEY = "default"
   }
 }
 
@@ -1236,7 +1236,7 @@ variable "default_security_group_ingress" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -1247,7 +1247,7 @@ variable "enable_flow_log" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -1258,7 +1258,7 @@ variable "default_security_group_egress" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -1269,7 +1269,7 @@ variable "default_security_group_tags" {
     SIT         = {}
     UAT         = {}
     PROD        = {}
-    PROD-SYDNEY = {}
+    PROD_SYDNEY = {}
   }
 }
 
@@ -1280,7 +1280,7 @@ variable "create_flow_log_cloudwatch_log_group" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -1291,7 +1291,7 @@ variable "create_flow_log_cloudwatch_iam_role" {
     SIT         = false
     UAT         = false
     PROD        = false
-    PROD-SYDNEY = false
+    PROD_SYDNEY = false
   }
 }
 
@@ -1302,7 +1302,7 @@ variable "flow_log_traffic_type" {
     SIT         = "ALL"
     UAT         = "ALL"
     PROD        = "ALL"
-    PROD-SYDNEY = "ALL"
+    PROD_SYDNEY = "ALL"
   }
 }
 
@@ -1313,7 +1313,7 @@ variable "flow_log_destination_type" {
     SIT         = "cloud-watch-logs"
     UAT         = "cloud-watch-logs"
     PROD        = "cloud-watch-logs"
-    PROD-SYDNEY = "cloud-watch-logs"
+    PROD_SYDNEY = "cloud-watch-logs"
   }
 }
 
@@ -1324,7 +1324,7 @@ variable "flow_log_log_format" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -1335,7 +1335,7 @@ variable "flow_log_destination_arn" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -1346,7 +1346,7 @@ variable "flow_log_cloudwatch_iam_role_arn" {
     SIT         = ""
     UAT         = ""
     PROD        = ""
-    PROD-SYDNEY = ""
+    PROD_SYDNEY = ""
   }
 }
 
@@ -1357,7 +1357,7 @@ variable "flow_log_cloudwatch_log_group_name_prefix" {
     SIT         = "/aws/vpc-flow-log/"
     UAT         = "/aws/vpc-flow-log/"
     PROD        = "/aws/vpc-flow-log/"
-    PROD-SYDNEY = "/aws/vpc-flow-log/"
+    PROD_SYDNEY = "/aws/vpc-flow-log/"
   }
 }
 
@@ -1368,7 +1368,7 @@ variable "flow_log_cloudwatch_log_group_retention_in_days" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -1379,7 +1379,7 @@ variable "flow_log_cloudwatch_log_group_kms_key_id" {
     SIT         = null
     UAT         = null
     PROD        = null
-    PROD-SYDNEY = null
+    PROD_SYDNEY = null
   }
 }
 
@@ -1390,7 +1390,7 @@ variable "flow_log_max_aggregation_interval" {
     SIT         = 600
     UAT         = 600
     PROD        = 600
-    PROD-SYDNEY = 600
+    PROD_SYDNEY = 600
   }
 }
 
@@ -1401,7 +1401,7 @@ variable "create_igw" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -1412,7 +1412,7 @@ variable "create_egress_only_igw" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -1423,7 +1423,7 @@ variable "prevent_destroy_vpc" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }
 
@@ -1434,6 +1434,6 @@ variable "create_before_destroy_vpc" {
     SIT         = true
     UAT         = true
     PROD        = true
-    PROD-SYDNEY = true
+    PROD_SYDNEY = true
   }
 }

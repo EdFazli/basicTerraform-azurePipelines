@@ -11,7 +11,7 @@ variable "region" {
     SIT         = "ap-southeast-1"
     UAT         = "ap-southeast-1"
     PROD        = "ap-southeast-1"
-    PROD-SYDNEY = "ap-southeast-2"
+    PROD_SYDNEY = "ap-southeast-2"
   }
 }
 
@@ -21,7 +21,7 @@ variable "provider_env_roles" {
     SIT         = "arn:aws:iam::452342606332:role/OrganizationAccountAccessRole"
     UAT         = "arn:aws:iam::699388596268:role/OrganizationAccountAccessRole"
     PROD        = "arn:aws:iam::649377927085:role/OrganizationAccountAccessRole"
-    PROD-SYDNEY = "arn:aws:iam::649377927085:role/OrganizationAccountAccessRole"
+    PROD_SYDNEY = "arn:aws:iam::649377927085:role/OrganizationAccountAccessRole"
   }
 }
 
