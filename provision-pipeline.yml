@@ -1,6 +1,8 @@
 variables:
   - group: COMMON Variables
   - group: VPC Variables
+  - group: EC2 Variables
+  - group: S3 Variables
 
 trigger:
   branches:
