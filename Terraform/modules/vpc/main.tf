@@ -619,30 +619,30 @@ resource "aws_customer_gateway" "this" {
 ################################################################################
 
 resource "aws_vpn_gateway" "this" {
-  count = "${var.create_vpc[local.env]}" && var.enable_vpn_gateway ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.enable_vpn_gateway[local.env]}" ? 1 : 0
 
   vpc_id            = local.vpc_id
   amazon_side_asn   = var.amazon_side_asn
-  availability_zone = var.vpn_gateway_az
+  availability_zone = "${var.vpn_gateway_az[local.env]}"
 
   tags = merge(
     {
       "Name" = "VGW-${local.env}-VPC"
     },
     "${var.tags[local.env]}",
-    var.vpn_gateway_tags,
+    "${var.vpn_gateway_tags[local.env]}",
   )
 }
 
 resource "aws_vpn_gateway_attachment" "this" {
-  count = var.vpn_gateway_id != "" ? 1 : 0
+  count = "${var.vpn_gateway_id[local.env]}" != "" ? 1 : 0
 
   vpc_id         = local.vpc_id
-  vpn_gateway_id = var.vpn_gateway_id
+  vpn_gateway_id = "${var.vpn_gateway_id[local.env]}"
 }
 
 resource "aws_vpn_gateway_route_propagation" "public" {
-  count = "${var.create_vpc[local.env]}" && var.propagate_public_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? 1 : 0
+  count = "${var.create_vpc[local.env]}" && "${var.propagate_public_route_tables_vgw[local.env]}" && ("${var.enable_vpn_gateway[local.env]}" || "${var.vpn_gateway_id[local.env]}" != "") ? 1 : 0
 
   route_table_id = element(aws_route_table.public.*.id, count.index)
   vpn_gateway_id = element(
@@ -655,7 +655,7 @@ resource "aws_vpn_gateway_route_propagation" "public" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "private" {
-  count = "${var.create_vpc[local.env]}" && var.propagate_private_route_tables_vgw && (var.enable_vpn_gateway || var.vpn_gateway_id != "") ? length("${var.private_subnets[local.env]}") : 0
+  count = "${var.create_vpc[local.env]}" && "${var.propagate_private_route_tables_vgw[local.env]}" && ("${var.enable_vpn_gateway[local.env]}" || "${var.vpn_gateway_id[local.env]}" != "") ? length("${var.private_subnets[local.env]}") : 0
 
   route_table_id = element(aws_route_table.private.*.id, count.index)
   vpn_gateway_id = element(
