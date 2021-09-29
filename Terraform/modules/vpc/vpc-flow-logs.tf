@@ -3,7 +3,6 @@
 ############################
 locals {
 
-  env = terraform.workspace
   # Only create flow log if user selected to create a VPC as well
   enable_flow_log = "${var.create_vpc[local.env]}" && "${var.enable_flow_log[local.env]}"
 
