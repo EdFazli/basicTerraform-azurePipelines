@@ -16,8 +16,8 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
-          script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-          workingDirectory: '$(build.sourcesdirectory)'
+          script: 'terraform init -backend-config=backend -no-color'
+          workingDirectory: '$(build.sourcesdirectory)/Terraform'
         displayName: Terraform init
       - task: Bash@3
         inputs:
@@ -63,20 +63,20 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="bucket=edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            script: 'terraform init -backend-config=backend -no-color'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select SIT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: SIT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
@@ -118,20 +118,20 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            script: 'terraform init -backend-config=backend -no-color'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select SIT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: SIT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform destroy"
   - stage: UAT
     displayName: UAT
@@ -149,20 +149,20 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            script: 'terraform init -backend-config=backend -no-color'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select UAT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: UAT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
@@ -204,20 +204,20 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              script: 'terraform init -backend-config=backend -no-color'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select UAT -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: UAT"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform destroy -target="module.$(var.module)" -var region=$(region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform destroy"
   - stage: PROD
     displayName: PROD
@@ -235,20 +235,20 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            script: 'terraform init -backend-config=backend -no-color'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select PROD -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: PROD"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
@@ -290,20 +290,20 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              script: 'terraform init -backend-config=backend -no-color'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform destroy"
   - stage: PROD_SYDNEY
     displayName: PROD_SYDNEY
@@ -321,20 +321,20 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              script: 'terraform init -backend-config=backend -no-color'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD_SYDNEY -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform plan"
           - task: Bash@3
             inputs:
@@ -376,18 +376,18 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              script: 'terraform init -backend-config=backend -no-color'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD_SYDNEY -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform destroy"
