@@ -5,7 +5,7 @@ variables:
 trigger:
   branches:
     include:
-    - main/modules/ec2
+    - main
     exclude:
       - README.md
   
