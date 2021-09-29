@@ -16,7 +16,7 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
-          script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+          script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
           workingDirectory: '$(build.sourcesdirectory)'
         displayName: Terraform init
       - task: Bash@3
@@ -63,7 +63,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="bucket=edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+            script: 'terraform init -backend-config="bucket=edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: Terraform init
         - task: PowerShell@2
@@ -75,7 +75,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -118,7 +118,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: Terraform init
         - task: PowerShell@2
@@ -130,7 +130,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+            script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform destroy"
   - stage: UAT
@@ -149,7 +149,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: Terraform init
         - task: PowerShell@2
@@ -161,7 +161,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -204,7 +204,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: Terraform init
           - task: PowerShell@2
@@ -216,7 +216,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(var.module)" -var region=$(region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform destroy"
   - stage: PROD
@@ -235,7 +235,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+            script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: Terraform init
         - task: PowerShell@2
@@ -247,7 +247,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+            script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
             workingDirectory: '$(build.sourcesdirectory)'
           displayName: "Terraform plan"
         - task: Bash@3
@@ -290,7 +290,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: Terraform init
           - task: PowerShell@2
@@ -302,7 +302,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform destroy"
   - stage: PROD_SYDNEY
@@ -321,7 +321,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: Terraform init
           - task: PowerShell@2
@@ -333,7 +333,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform plan -destroy -target="module.$(module)" -var access_key=$(access_key) -var secret_key=$(secret_key) -out main.tfplan -no-color'
+              script: 'terraform plan -destroy -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform plan"
           - task: Bash@3
@@ -376,7 +376,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(region)" -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
+              script: 'terraform init -backend-config="edfazli92-terraform-statefile" -backend-config="key=tf/terraform.tfstate" -backend-config="region=$(var.region)" -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: Terraform init
           - task: PowerShell@2
@@ -388,6 +388,6 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform destroy -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform destroy -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)'
             displayName: "Terraform destroy"
