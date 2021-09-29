@@ -1415,25 +1415,3 @@ variable "create_egress_only_igw" {
     PROD_SYDNEY = true
   }
 }
-
-variable "prevent_destroy_vpc" {
-    description = "Controls the prevent_destroy lifecycle for VPC"
-    type = map(bool)
-    default = {
-    SIT         = true
-    UAT         = true
-    PROD        = true
-    PROD_SYDNEY = true
-  }
-}
-
-variable "create_before_destroy_vpc" {
-    description = "Controls the create_before__destroy lifecycle for VPC"
-    type = map(bool)
-    default = {
-    SIT         = true
-    UAT         = true
-    PROD        = true
-    PROD_SYDNEY = true
-  }
-}

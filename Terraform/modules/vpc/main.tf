@@ -51,8 +51,8 @@ resource "aws_vpc" "this" {
   )
 
   lifecycle {
-    prevent_destroy = "${var.prevent_destroy_vpc[local.env]}"
-    create_before_destroy = "${var.create_before_destroy_vpc[local.env]}"
+    prevent_destroy = true
+    create_before_destroy = true
   }
 }
 
