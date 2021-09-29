@@ -5,7 +5,7 @@ variables:
 trigger:
   branches:
     include:
-    - main/modules/vpc
+    - main
     exclude:
       - README.md
   
