@@ -1,11 +1,11 @@
 variables:
   - group: COMMON Variables
-  - group: VPC Variables
+  - group: EC2 Variables
 
 trigger:
   branches:
     include:
-    - main/modules/vpc
+    - main/modules/ec2
     exclude:
       - README.md
   
