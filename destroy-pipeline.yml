@@ -16,7 +16,7 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
-          script: 'terraform init -backend-config=backend -no-color'
+          script: 'terraform init -backend-config=backend.tf -no-color'
           workingDirectory: '$(build.sourcesdirectory)/Terraform'
         displayName: Terraform init
       - task: Bash@3
@@ -63,7 +63,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config=backend -no-color'
+            script: 'terraform init -backend-config=backend.tf -no-color'
             workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
@@ -118,7 +118,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config=backend -no-color'
+            script: 'terraform init -backend-config=backend.tf -no-color'
             workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
@@ -149,7 +149,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config=backend -no-color'
+            script: 'terraform init -backend-config=backend.tf -no-color'
             workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
@@ -204,7 +204,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config=backend -no-color'
+              script: 'terraform init -backend-config=backend.tf -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
@@ -235,7 +235,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'terraform init -backend-config=backend -no-color'
+            script: 'terraform init -backend-config=backend.tf -no-color'
             workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
@@ -290,7 +290,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config=backend -no-color'
+              script: 'terraform init -backend-config=backend.tf -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
@@ -321,7 +321,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config=backend -no-color'
+              script: 'terraform init -backend-config=backend.tf -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
@@ -376,7 +376,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'terraform init -backend-config=backend -no-color'
+              script: 'terraform init -backend-config=backend.tf -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
