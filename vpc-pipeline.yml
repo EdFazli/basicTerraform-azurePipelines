@@ -135,7 +135,7 @@ stages:
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
-            script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+            script: 'terraform apply -target="module.$(module)" -var region=$(region[terraform.workspace]) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
             workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform apply"
   - stage: UAT
@@ -221,7 +221,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform apply -target="module.$(module)" -var region=$(region[terraform.workspace]) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
   - stage: PROD
@@ -307,7 +307,7 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform apply -target="module.$(module)" -var region=$(region[terraform.workspace]) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
   - stage: PROD_SYDNEY
@@ -393,6 +393,6 @@ stages:
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
-              script: 'terraform apply -target="module.$(module)" -var region=$(region) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
+              script: 'terraform apply -target="module.$(module)" -var region=$(region[terraform.workspace]) -var access_key=$(access_key) -var secret_key=$(secret_key) --auto-approve -no-color'
               workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
