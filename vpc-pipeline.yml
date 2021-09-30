@@ -22,7 +22,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: 'terraform init -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
-          workingDirectory: '$(build.sourcesdirectory)'
+          workingDirectory: '$(build.sourcesdirectory)/Terraform'
         displayName: Terraform init
       - task: Bash@3
         inputs:
@@ -31,20 +31,20 @@ stages:
         displayName: Install checkov
       - task: PowerShell@2
         inputs:
-          filePath: 'listWorkspaces.ps1'
+          filePath: '$(build.sourcesdirectory)/Terraform/listWorkspaces.ps1'
           arguments: '-CommaSeparatedListofWorkspaces "$(CommaSeparatedListofWorkspaces)"'
         displayName: Terraform validate
       - task: Bash@3
         inputs:
           targetType: 'inline'
-          workingDirectory: $(System.DefaultWorkingDirectory)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           script: 'checkov -d . -o junitxml > scan-result.xml'
         displayName: Checkov source code scan
         continueOnError: true
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          searchFolder: '$(System.DefaultWorkingDirectory)'
+          searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
           testResultsFiles: '**/*scan-result.xml'
           mergeTestResults: false
           testRunTitle: Terraform source code scan
@@ -86,7 +86,7 @@ stages:
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -95,7 +95,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov SIT workspace plan scan
@@ -172,7 +172,7 @@ stages:
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -181,7 +181,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov UAT workspace plan scan
@@ -258,7 +258,7 @@ stages:
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -267,7 +267,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov PROD workspace plan scan
@@ -344,7 +344,7 @@ stages:
           - task: Bash@3
             inputs:
               targetType: 'inline'
-              workingDirectory: $(System.DefaultWorkingDirectory)            
+              workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
               script: |
                       terraform show -json main.tfplan > main.json
                         checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -353,7 +353,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              searchFolder: '$(System.DefaultWorkingDirectory)'
+              searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
               testResultsFiles: '**/*Checkov-Plan-Report.xml'
               mergeTestResults: false
               testRunTitle: Checkov PROD_SYDNEY workspace plan scan
