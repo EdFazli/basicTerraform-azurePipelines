@@ -11,7 +11,7 @@ trigger:
   
 stages:
   - stage: Validate
-    displayName: Validate
+    displayName: Validating
     jobs:
     - job: init
       displayName: Terraform validate
