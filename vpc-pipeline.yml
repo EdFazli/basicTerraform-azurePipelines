@@ -22,7 +22,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: 'terraform init -backend-config="access_key=$(access_key)" -backend-config="secret_key=$(secret_key)" -no-color'
-          workingDirectory: '$(build.sourcesdirectory)'
+          workingDirectory: '$(build.sourcesdirectory)/Terraform'
         displayName: Terraform init
       - task: Bash@3
         inputs:
@@ -31,20 +31,20 @@ stages:
         displayName: Install checkov
       - task: PowerShell@2
         inputs:
-          filePath: 'listWorkspaces.ps1'
+          filePath: '$(build.sourcesdirectory)/Terraform/listWorkspaces.ps1'
           arguments: '-CommaSeparatedListofWorkspaces "$(CommaSeparatedListofWorkspaces)"'
         displayName: Terraform validate
       - task: Bash@3
         inputs:
           targetType: 'inline'
-          workingDirectory: $(System.DefaultWorkingDirectory)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           script: 'checkov -d . -o junitxml > scan-result.xml'
         displayName: Checkov source code scan
         continueOnError: true
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          searchFolder: '$(System.DefaultWorkingDirectory)'
+          searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
           testResultsFiles: '**/*scan-result.xml'
           mergeTestResults: false
           testRunTitle: Terraform source code scan
@@ -69,24 +69,24 @@ stages:
           inputs:
             targetType: 'inline'
             script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select SIT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: SIT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -95,7 +95,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov SIT workspace plan scan
@@ -124,19 +124,19 @@ stages:
           inputs:
             targetType: 'inline'
             script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select SIT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: SIT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform apply -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform apply"
   - stage: UAT
     displayName: UAT
@@ -155,24 +155,24 @@ stages:
           inputs:
             targetType: 'inline'
             script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select UAT -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: UAT"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -181,7 +181,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov UAT workspace plan scan
@@ -210,19 +210,19 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select UAT -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: UAT"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform apply -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
   - stage: PROD
     displayName: PROD
@@ -241,24 +241,24 @@ stages:
           inputs:
             targetType: 'inline'
             script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: Terraform init
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: 'terraform workspace select PROD -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform workspace: PROD"
         - task: PowerShell@2
           inputs:  
             targetType: 'inline'
             script: 'terraform plan -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-            workingDirectory: '$(build.sourcesdirectory)'
+            workingDirectory: '$(build.sourcesdirectory)/Terraform'
           displayName: "Terraform plan"
         - task: Bash@3
           inputs:
             targetType: 'inline'
-            workingDirectory: $(System.DefaultWorkingDirectory)            
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
             script: |
                     terraform show -json main.tfplan > main.json
                       checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -267,7 +267,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            searchFolder: '$(System.DefaultWorkingDirectory)'
+            searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
             testResultsFiles: '**/*Checkov-Plan-Report.xml'
             mergeTestResults: false
             testRunTitle: Checkov PROD workspace plan scan
@@ -296,19 +296,19 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform apply -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
   - stage: PROD_SYDNEY
     displayName: PROD_SYDNEY
@@ -327,24 +327,24 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD_SYDNEY -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform plan -target="module.$(var.module)" -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) -out main.tfplan -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform plan"
           - task: Bash@3
             inputs:
               targetType: 'inline'
-              workingDirectory: $(System.DefaultWorkingDirectory)            
+              workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'            
               script: |
                       terraform show -json main.tfplan > main.json
                         checkov -f main.json -o junitxml > Checkov-Plan-Report.xml
@@ -353,7 +353,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              searchFolder: '$(System.DefaultWorkingDirectory)'
+              searchFolder: '$(System.DefaultWorkingDirectory)/Terraform'
               testResultsFiles: '**/*Checkov-Plan-Report.xml'
               mergeTestResults: false
               testRunTitle: Checkov PROD_SYDNEY workspace plan scan
@@ -382,17 +382,17 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'terraform init -backend-config="access_key=$(var.access_key)" -backend-config="secret_key=$(var.secret_key)" -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: Terraform init
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: 'terraform workspace select PROD_SYDNEY -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform workspace: PROD_SYDNEY"
           - task: PowerShell@2
             inputs:  
               targetType: 'inline'
               script: 'terraform apply -target="module.$(var.module)" -var region=$(var.region) -var access_key=$(var.access_key) -var secret_key=$(var.secret_key) --auto-approve -no-color'
-              workingDirectory: '$(build.sourcesdirectory)'
+              workingDirectory: '$(build.sourcesdirectory)/Terraform'
             displayName: "Terraform apply"
